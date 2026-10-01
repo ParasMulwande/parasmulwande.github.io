@@ -93,7 +93,7 @@ export const HeroSection: React.FC = () => {
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-sm bg-[#111116] hover:bg-[#181820] border border-white/20 hover:border-[#00f0ff] text-[#f4f4f6] hover:text-[#00f0ff] font-mono-tech text-xs tracking-wider transition-all duration-150"
               >
                 <Github size={14} />
-                <span>VIEW GITHUB & REPOS</span>
+                <span>VIEW GITHUB</span>
               </a>
 
               {/* Tertiary Action: Copy Email */}
