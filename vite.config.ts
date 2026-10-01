@@ -3,20 +3,29 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 
+function removeStylesheetCrossorigin() {
+  return {
+    name: 'remove-stylesheet-crossorigin',
+    transformIndexHtml(html: string) {
+      return html.replace(
+        /<link rel="stylesheet" crossorigin href/,
+        '<link rel="stylesheet" href'
+      );
+    },
+  };
+}
+
 export default defineConfig(() => {
   return {
-    base: '/paras-mulwande-portfolio/',
-    plugins: [react(), tailwindcss()],
+    base: '/',
+    plugins: [react(), tailwindcss(), removeStylesheetCrossorigin()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
       },
     },
     server: {
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modify—file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
-      // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },
   };
