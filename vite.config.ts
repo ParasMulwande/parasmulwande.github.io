@@ -17,7 +17,7 @@ function removeStylesheetCrossorigin() {
 
 export default defineConfig(() => {
   return {
-    base: '/',
+    base: '/paras-mulwande-portfolio/',
     plugins: [react(), tailwindcss(), removeStylesheetCrossorigin()],
     resolve: {
       alias: {
