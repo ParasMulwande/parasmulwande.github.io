@@ -127,3 +127,89 @@
   animation: hud-bracket-pulse 2.2s ease-in-out infinite;
 }
 
+/* ============================================================
+   HAZARD STRIPE LINE (Hero Section)
+   Pure CSS — no images, no libraries
+   ============================================================ */
+:root {
+  --hazard-color: #f5c800;
+  --hazard-height: 44px;
+  --hazard-tilt: -3deg;
+  --hazard-bottom: 0;
+  --hazard-width: 120vw;      /* bleeds off viewport edges */
+  --hazard-dash-angle: 115deg;
+  --hazard-dash-size: 28px;   /* dash length + gap */
+  --hazard-solid-ratio: 0.5;  /* solid portion (0–1) */
+  --hazard-fade-start: 0.5;   /* where fade begins (0–1) */
+}
+
+.hazard-line {
+  position: absolute;
+  left: calc(-50vw + 50%);
+  bottom: var(--hazard-bottom);
+  width: var(--hazard-width);
+  height: var(--hazard-height);
+  pointer-events: none;
+  transform: rotate(var(--hazard-tilt));
+  transform-origin: left center;
+  z-index: 1;
+
+  /* Background: solid left half, striped right half */
+  background:
+    /* Solid portion */
+    linear-gradient(90deg, var(--hazard-color) 0%, var(--hazard-color) var(--hazard-solid-ratio), transparent var(--hazard-solid-ratio)) 0 0 / 100% 100%,
+    /* Striped portion (diagonal dashes at 115deg) */
+    repeating-linear-gradient(
+      var(--hazard-dash-angle),
+      var(--hazard-color) 0,
+      var(--hazard-color) calc(var(--hazard-dash-size) * 0.55),
+      transparent calc(var(--hazard-dash-size) * 0.55),
+      transparent var(--hazard-dash-size)
+    ) 0 0 / 100% 100%;
+
+  /* Mask: fully opaque on solid portion, then fade to transparent */
+  mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 var(--hazard-fade-start),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 var(--hazard-fade-start),
+    transparent 100%
+  );
+
+  /* Animate the stripes sliding right */
+  animation: hazard-slide 3s linear infinite;
+}
+
+@keyframes hazard-slide {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 0 0, var(--hazard-dash-size) 0;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hazard-line {
+    animation: none;
+  }
+}
+
+/* Mobile: reduce width & height */
+@media (max-width: 768px) {
+  :root {
+    --hazard-height: 28px;
+    --hazard-width: 80vw;
+  }
+  .hazard-line {
+    left: 0;
+    transform-origin: left center;
+  }
+}
+

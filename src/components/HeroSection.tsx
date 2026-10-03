@@ -116,6 +116,9 @@ export const HeroSection: React.FC = () => {
               </button>
             </div>
 
+            {/* Hazard Stripe Line */}
+            <div className="hazard-line" aria-hidden="true" />
+
           </div>
 
           {/* Right Column: [NEURAL STACK TELEMETRY] HUD Panel */}
