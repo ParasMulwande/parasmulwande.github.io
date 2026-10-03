@@ -16,7 +16,7 @@ export const PublicationsSection: React.FC = () => {
 
   return (
     <section id="publications" className="py-20 border-b border-white/[0.08] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
         
         {/* Section Header */}
         <div className="space-y-2 mb-12">

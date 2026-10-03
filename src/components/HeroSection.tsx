@@ -26,7 +26,7 @@ export const HeroSection: React.FC = () => {
         <div className="absolute top-20 left-10 w-80 h-80 bg-[#00f0ff]/5 rounded-full blur-[100px]"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
         
         {/* Top Label */}
         <div className="mb-4">
@@ -200,7 +200,7 @@ export const HeroSection: React.FC = () => {
               {/* Bottom CLI Prompt simulation */}
               <div className="mt-4 pt-3 border-t border-white/10 font-mono-tech text-[11px] flex items-center justify-between text-white/70">
                 <span className="text-[#00f0ff] truncate">
-                  &gt; init_agent(target="Paras_Mulwande")
+                  {'> init_agent(target="Paras_Mulwande")'}
                 </span>
                 <span className="text-[#a3e635] font-semibold ml-2 shrink-0">[OK]</span>
               </div>

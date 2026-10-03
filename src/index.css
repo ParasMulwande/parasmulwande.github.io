@@ -13,6 +13,16 @@
   --color-cyber-card: #111116;
 }
 
+/* Full-bleed page shell: outer container always fills the viewport width */
+html,
+body,
+#root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
 /* Custom Cybernetic UI styles */
 .font-display {
   font-family: 'Syne', sans-serif;

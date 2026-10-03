@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { TelemetryStatusBar } from './components/TelemetryStatusBar';
 import { HeroSection } from './components/HeroSection';
@@ -16,12 +16,32 @@ import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { ProfileModal } from './components/ProfileModal';
 import { TwinklingDotGrid } from './components/TwinklingDotGrid';
+import { BootIntro } from './components/BootIntro';
 
 export default function App() {
   const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [bootComplete, setBootComplete] = useState(false);
+
+  useEffect(() => {
+    const hasBooted = sessionStorage.getItem('portfolio_booted');
+    if (hasBooted) {
+      setBootComplete(true);
+    }
+  }, []);
+
+  const handleBootComplete = () => {
+    sessionStorage.setItem('portfolio_booted', 'true');
+    setBootComplete(true);
+  };
+
+  if (!bootComplete) {
+    return (
+      <BootIntro onComplete={handleBootComplete} />
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-[#070709] text-[#e5e1e4] selection:bg-[#00f0ff]/30 selection:text-[#00f0ff] cyber-grid-bg relative flex flex-col font-body">
+    <div className="w-full max-w-none min-h-screen bg-[#070709] text-[#e5e1e4] selection:bg-[#00f0ff]/30 selection:text-[#00f0ff] cyber-grid-bg relative flex flex-col font-body">
       {/* Animated Subtle Background Dot Grid */}
       <TwinklingDotGrid />
       
