@@ -54,4 +54,9 @@ export interface ExperienceItem {
   summary: string;
   bullets: string[];
   tags: string[];
+  workMode?: string;
+  achievement?: {
+    title: string;
+    description: string;
+  };
 }

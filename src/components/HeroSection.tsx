@@ -54,7 +54,7 @@ export const HeroSection: React.FC = () => {
 
               <h1 className="font-display font-extrabold tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl select-none relative z-0">
                 <span className="block text-[#00f0ff] tracking-tight drop-shadow-[0_0_25px_rgba(0,240,255,0.4)] animate-cyber-glow">
-                  PARAS //
+                  PARAS
                 </span>
                 <span className="block text-[#f4f4f6] tracking-tight animate-cyber-text-shimmer">
                   MULWANDE

@@ -1,11 +1,11 @@
 import { Project, SkillCategory, Publication, EducationItem, ExperienceItem } from '../types';
 
 export const PERSONAL_INFO = {
-  name: "PARAS // MULWANDE",
+  name: "PARAS MULWANDE",
   firstName: "Paras",
   lastName: "Mulwande",
   handle: "PM / 01",
-  roleLabel: "// SYSTEM ARCHITECT & ML SPECIALIST",
+  roleLabel: "SYSTEM ARCHITECT & ML SPECIALIST",
   heroTagline: "Machine Learning Engineer & Data Scientist crafting intelligent systems, neural computer vision pipelines, and production-grade full-stack AI applications.",
   bio: "Data Science professional with hands-on experience engineering end-to-end ML & DL ecosystems using Python and SQL. Specialized in precision predictive modeling, real-time diagnostic pipelines, and deploying robust user-facing web intelligence, supported by peer-reviewed published research in applied artificial intelligence.",
   location: "Nagpur, MH, India",
@@ -163,18 +163,40 @@ export const PUBLICATIONS: Publication[] = [
   }
 ];
 
-export const EXPERIENCE: ExperienceItem = {
-  role: "Freelance Graphic Designer & Design Team Lead",
-  period: "2022 — PRESENT",
-  company: "Independent Practice & Digital Studio",
-  summary: "Directing visual communication systems, brand identity execution, and digital interface design while coordinating a multidisciplinary team of designers.",
-  bullets: [
-    "Led a distributed team of creative designers, assigning weekly client sprints, establishing visual QA benchmarks, and orchestrating client deliveries.",
-    "Managed complete client lifecycles from discovery and scoping to iteration and asset handoff across brand collateral, social platforms, and interactive media.",
-    "Engineered polished digital product graphics, mobile application mockup UI, and dynamic video reels using Photoshop, Illustrator, and Canva."
-  ],
-  tags: ["Team Leadership", "UI/UX Direction", "Photoshop", "Illustrator", "Creative Direction"]
-};
+export const EXPERIENCE: ExperienceItem[] = [
+  {
+    role: "Artificial Intelligence Intern",
+    period: "21 SEP 2026 — 04 OCT 2026",
+    company: "InAmigos Foundation",
+    workMode: "REMOTE",
+    summary:
+      "Completed a remote artificial intelligence internship centred on AI tooling, structured problem-solving, and responsible AI practice through assigned practical challenges.",
+    bullets: [
+      "Conducted an AI tools discovery task surveying practical AI utilities and assessing their real-world use cases.",
+      "Worked through an AI problem-solving challenge applying AI tooling to structured, real-world problem scenarios.",
+      "Completed an AI awareness challenge covering responsible AI use, data privacy considerations, and safe application practices.",
+      "Applied AI tools to research and productivity workflows, documenting findings and outcomes from each task."
+    ],
+    tags: ["AI Tooling", "Problem Solving", "Responsible AI", "Data Privacy"],
+    achievement: {
+      title: "Top Performer",
+      description:
+        "Recognized as a Top Performer across the InAmigos Foundation Artificial Intelligence internship tasks for consistent performance, practical AI application, and quality of work."
+    }
+  },
+  {
+    role: "Freelance Graphic Designer & Design Team Lead",
+    period: "2022 — PRESENT",
+    company: "Independent Practice & Digital Studio",
+    summary: "Directing visual communication systems, brand identity execution, and digital interface design while coordinating a multidisciplinary team of designers.",
+    bullets: [
+      "Led a distributed team of creative designers, assigning weekly client sprints, establishing visual QA benchmarks, and orchestrating client deliveries.",
+      "Managed complete client lifecycles from discovery and scoping to iteration and asset handoff across brand collateral, social platforms, and interactive media.",
+      "Engineered polished digital product graphics, mobile application mockup UI, and dynamic video reels using Photoshop, Illustrator, and Canva."
+    ],
+    tags: ["Team Leadership", "UI/UX Direction", "Photoshop", "Illustrator", "Creative Direction"]
+  }
+];
 
 export const EDUCATION: EducationItem[] = [
   {
