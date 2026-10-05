@@ -200,7 +200,7 @@ export const EXPERIENCE: ExperienceItem[] = [
 
 export const EDUCATION: EducationItem[] = [
   {
-    status: "[EXPECTED 2026]",
+    status: "[CONFERRED 2025]",
     level: "POSTGRADUATE DEGREE",
     degree: "Master of Computer Applications (MCA)",
     institution: "K. D. K. College of Engineering, Nagpur",
