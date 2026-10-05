@@ -1,121 +1,152 @@
-import React, { useState } from 'react';
-import { User, Menu, X, Terminal, ExternalLink, Mail, ArrowUpRight } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { User, Menu, X, ArrowUpRight } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 
 interface NavbarProps {
   onOpenProfile?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenProfile }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const LINKS = [
+  { label: 'Home', href: '#hero' },
+  { label: 'About', href: '#about' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Data Lab', href: '#datalab' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Contact', href: '#contact' },
+];
 
-  const navLinks = [
-    { label: 'SYSTEMS', href: '#systems' },
-    { label: 'EXPERTISE', href: '#expertise' },
-    { label: 'PUBLICATIONS', href: '#publications' },
-    { label: 'EXPERIENCE', href: '#experience' },
-    { label: 'CONTACT', href: '#contact' },
-  ];
+export const Navbar: React.FC<NavbarProps> = ({ onOpenProfile }) => {
+  const [open, setOpen] = useState(false);
+  const [condensed, setCondensed] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setCondensed(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Close the mobile sheet when the viewport grows past the breakpoint.
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const on = () => mq.matches && setOpen(false);
+    mq.addEventListener?.('change', on);
+    return () => mq.removeEventListener?.('change', on);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#070709]/90 backdrop-blur-md border-b border-white/[0.08] transition-all">
-      <div className="shell h-16 flex items-center justify-between">
-        
-        {/* Left ID + Live Status Badge */}
-        <div className="flex items-center gap-3 sm:gap-4">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        condensed
+          ? 'bg-[#05070B]/80 backdrop-blur-xl border-b border-white/[0.07]'
+          : 'bg-transparent border-b border-transparent'
+      }`}
+    >
+      <div className="shell">
+        <div
+          className={`flex items-center justify-between transition-all duration-300 ${
+            condensed ? 'h-14' : 'h-16'
+          }`}
+        >
+          {/* Wordmark */}
           <a
-            href="#"
+            href="#hero"
             id="nav-logo"
-            className="flex items-center gap-1.5 font-mono-tech text-sm font-semibold tracking-wider text-white hover:text-[#00f0ff] transition-colors"
+            aria-label="Paras Mulwande — home"
+            className="group flex items-baseline gap-2"
           >
-            <span className="text-[#00f0ff] font-bold">PM</span>
-            <span className="text-white/40">/</span>
-            <span className="text-white/80">01</span>
+            <span className="font-display text-base font-bold tracking-tight text-ink">
+              Paras Mulwande
+            </span>
+            <span className="hidden sm:inline font-mono-tech text-[10px] tracking-[0.18em] text-ink-muted transition-colors duration-200 group-hover:text-accent">
+              DATA SCIENTIST
+            </span>
           </a>
 
-          <div
-            id="nav-availability-badge"
-            className="hidden md:inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#0d160e] border border-[#a3e635]/30 text-[11px] font-mono-tech text-[#a3e635] tracking-wider"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#a3e635] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#a3e635]"></span>
-            </span>
-            <span>AVAILABLE FOR Q2/Q3 ROLES & COLLABS</span>
-          </div>
-        </div>
+          {/* Desktop links */}
+          <nav aria-label="Primary" className="hidden lg:block">
+            <ul className="flex items-center gap-6">
+              {LINKS.map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} data-nav-link className="nav-link">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="relative h-0">
+              <span className="nav-ink" style={{ width: 0 }} aria-hidden="true" />
+            </div>
+          </nav>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center gap-7 text-[12px] font-mono-tech tracking-widest text-[#8e8e9f]">
-          {navLinks.map((link) => (
+          {/* Actions */}
+          <div className="flex items-center gap-2">
             <a
-              key={link.label}
-              href={link.href}
-              id={`nav-link-${link.label.toLowerCase()}`}
-              className="hover:text-[#00f0ff] transition-colors py-1 relative group"
+              href={PERSONAL_INFO.github}
+              target="_blank"
+              rel="noreferrer"
+              className="hidden md:inline-flex items-center gap-1.5 rounded-[10px] border border-white/10 px-3 py-1.5 text-[11px] font-mono-tech tracking-wider text-ink-secondary transition-all duration-200 hover:border-accent/40 hover:text-accent"
             >
-              <span>{link.label}</span>
-              <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#00f0ff] transition-all duration-200 group-hover:w-full"></span>
+              GitHub <ArrowUpRight size={12} />
             </a>
-          ))}
-        </nav>
 
-        {/* Right Action Icons & Mobile Toggle */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={onOpenProfile}
-            id="nav-profile-btn"
-            title="System Profile & Dossier"
-            aria-label="User Profile"
-            className="w-8 h-8 rounded-full bg-white/[0.05] border border-white/20 hover:border-[#00f0ff] hover:text-[#00f0ff] hover:bg-[#00f0ff]/10 flex items-center justify-center text-white/80 transition-all cursor-pointer"
-          >
-            <User size={15} />
-          </button>
+            <button
+              onClick={onOpenProfile}
+              id="nav-profile-btn"
+              aria-label="Open profile dossier"
+              className="grid h-8 w-8 place-items-center rounded-full border border-white/10 text-ink-secondary transition-all duration-200 hover:border-accent/50 hover:text-accent hover:bg-accent/10"
+            >
+              <User size={14} />
+            </button>
 
-          {/* Mobile Menu Trigger */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            id="nav-mobile-toggle"
-            aria-label="Toggle Navigation Menu"
-            className="lg:hidden p-1.5 rounded text-white/70 hover:text-white hover:bg-white/10"
-          >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+            <button
+              onClick={() => setOpen((v) => !v)}
+              id="nav-mobile-toggle"
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              className="grid h-8 w-8 place-items-center rounded-[10px] border border-white/10 text-ink-secondary transition-colors duration-200 hover:text-ink lg:hidden"
+            >
+              {open ? <X size={16} /> : <Menu size={16} />}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#0a0a0f] border-b border-white/10 px-4 py-4 space-y-3 font-mono-tech text-xs">
-          <div className="flex items-center gap-2 px-2 py-1.5 rounded bg-[#0d160e] border border-[#a3e635]/30 text-[#a3e635] text-[10px]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#a3e635] animate-pulse"></span>
-            <span>AVAILABLE FOR Q2/Q3 ROLES</span>
-          </div>
-
-          <div className="pt-2 flex flex-col space-y-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-white/70 hover:text-[#00f0ff] hover:bg-white/5 rounded transition-colors"
-              >
-                {link.label}
-              </a>
+      {/* Mobile sheet */}
+      <div
+        id="mobile-nav"
+        className={`overflow-hidden border-t border-white/[0.07] bg-[#05070B]/95 backdrop-blur-xl transition-[max-height,opacity] duration-300 lg:hidden ${
+          open ? 'max-h-[70vh] opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <nav aria-label="Mobile" className="shell py-4">
+          <ul className="flex flex-col">
+            {LINKS.map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between border-b border-white/[0.05] py-3 font-display text-sm tracking-tight text-ink-secondary transition-colors duration-200 hover:text-accent"
+                >
+                  {l.label}
+                  <ArrowUpRight size={14} className="opacity-40" />
+                </a>
+              </li>
             ))}
-          </div>
-
-          <div className="pt-3 border-t border-white/10 flex justify-between items-center text-[11px] text-white/50">
-            <span>LOC: NAGPUR, IN (IST)</span>
+          </ul>
+          <div className="mt-4 flex items-center justify-between text-[11px]">
             <a
               href={`mailto:${PERSONAL_INFO.email}`}
-              className="text-[#00f0ff] hover:underline"
+              className="text-accent hover:underline"
             >
               {PERSONAL_INFO.email}
             </a>
+            <span className="text-ink-muted">{PERSONAL_INFO.location}</span>
           </div>
-        </div>
-      )}
+        </nav>
+      </div>
     </header>
   );
 };

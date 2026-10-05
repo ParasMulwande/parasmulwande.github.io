@@ -1,10 +1,12 @@
-import {StrictMode} from 'react';
-import {createRoot} from 'react-dom/client';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
-import {initReveal} from './lib/reveal.ts';
+import { initReveal } from './lib/reveal.ts';
+import { initAnim } from './lib/anim.ts';
+import { initNavSpy } from './lib/navspy.ts';
 import './index.css';
 
-const disposeReveal = initReveal();
+const dispose = [initReveal(), initAnim(), initNavSpy()];
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -13,5 +15,5 @@ createRoot(document.getElementById('root')!).render(
 );
 
 if (import.meta.hot) {
-  import.meta.hot.dispose(disposeReveal);
+  import.meta.hot.dispose(() => dispose.forEach((fn) => fn()));
 }

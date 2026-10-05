@@ -10,6 +10,8 @@
  * Respects prefers-reduced-motion by revealing everything immediately.
  */
 
+import { onDomSettled } from "./dom";
+
 let observer: IntersectionObserver | null = null;
 let reduceMotionQuery: MediaQueryList | null = null;
 
@@ -53,8 +55,8 @@ function connect(): void {
       // Reveal slightly before the element is fully on screen so the
       // motion reads as part of scrolling rather than a delayed pop-in.
       root: null,
-      rootMargin: "0px 0px -12% 0px",
-      threshold: 0.12,
+      rootMargin: "0px 0px -6% 0px",
+      threshold: 0.01,
     },
   );
 
@@ -68,12 +70,13 @@ function connect(): void {
 export function initReveal(): () => void {
   reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  if (reduceMotionQuery.matches) {
-    revealAll();
-    return () => {};
-  }
+  const scan = () => {
+    if (reduceMotionQuery?.matches) revealAll();
+    else connect();
+  };
 
-  connect();
+  // Re-scan whenever the DOM settles after React mounts.
+  const stopDomWatch = onDomSettled(scan);
 
   const onMotionChange = (e: MediaQueryListEvent) => {
     if (e.matches) revealAll();
@@ -85,15 +88,10 @@ export function initReveal(): () => void {
   const onResize = () => connect();
   window.addEventListener("resize", onResize, { passive: true });
 
-  const settle = window.setTimeout(connect, 400);
-  if (document.fonts?.ready) {
-    document.fonts.ready.then(connect).catch(() => {});
-  }
-
   return () => {
-    window.clearTimeout(settle);
     window.removeEventListener("resize", onResize);
     reduceMotionQuery?.removeEventListener?.("change", onMotionChange);
+    stopDomWatch();
     disconnect();
   };
 }

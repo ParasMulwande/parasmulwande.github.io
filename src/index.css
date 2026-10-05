@@ -694,3 +694,339 @@ p {
     animation: none;
   }
 }
+
+/* =====================================================================
+   PREMIUM DATA LAB — component layer
+   Data-driven components built on the tokens above.
+   ===================================================================== */
+
+/* ---- Section eyebrow + rule --------------------------------------- */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-accent), transparent);
+}
+
+.rule {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-line) 40%, transparent);
+}
+
+/* ---- Stat / metric ------------------------------------------------- */
+.stat {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+/* ---- Card with gradient hairline ----------------------------------- */
+.card-lab {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+  transition:
+    transform var(--duration-base) var(--ease-out-expo),
+    border-color var(--duration-base) var(--ease-out-expo),
+    box-shadow var(--duration-base) var(--ease-out-expo);
+}
+.card-lab::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg, var(--color-accent), transparent 42%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out-expo);
+  pointer-events: none;
+}
+.card-lab:hover {
+  transform: translateY(-3px);
+  border-color: transparent;
+  box-shadow: var(--shadow-card-hover);
+}
+.card-lab:hover::after {
+  opacity: 0.55;
+}
+
+/* ---- Skill nodes --------------------------------------------------- */
+.node-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.node {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--color-ink-secondary);
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-chip);
+  padding: 0.4rem 0.7rem;
+  transition:
+    color var(--duration-fast) var(--ease-out-quart),
+    border-color var(--duration-fast) var(--ease-out-quart),
+    background-color var(--duration-fast) var(--ease-out-quart),
+    transform var(--duration-fast) var(--ease-out-quart);
+}
+.node:hover {
+  color: var(--color-accent);
+  border-color: rgba(0, 168, 255, 0.4);
+  background: var(--color-accent-softer);
+  transform: translateY(-2px);
+}
+
+/* ---- Timeline ------------------------------------------------------ */
+.tl {
+  position: relative;
+  padding-left: 1.75rem;
+}
+.tl::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--color-accent), var(--color-line) 70%, transparent);
+}
+.tl-item {
+  position: relative;
+}
+.tl-item::before {
+  content: "";
+  position: absolute;
+  left: -1.75rem;
+  top: 6px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 0 0 4px rgba(0, 168, 255, 0.08);
+  transition: box-shadow var(--duration-base) var(--ease-out-expo);
+}
+.tl-item:hover::before {
+  box-shadow: 0 0 0 6px rgba(0, 168, 255, 0.16);
+}
+
+/* ---- Pipeline (data lab) ------------------------------------------- */
+.pipe {
+  display: grid;
+  gap: 0.5rem;
+}
+.pipe-node {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-ctl);
+  padding: 0.85rem 0.9rem;
+  text-align: center;
+  transition:
+    border-color var(--duration-base) var(--ease-out-expo),
+    background-color var(--duration-base) var(--ease-out-expo),
+    transform var(--duration-base) var(--ease-out-expo);
+}
+.pipe-node:hover {
+  border-color: rgba(0, 168, 255, 0.45);
+  background: var(--color-surface-raised);
+  transform: translateY(-2px);
+}
+.pipe-step {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  color: var(--color-ink-muted);
+  text-transform: uppercase;
+}
+.pipe-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  margin-top: 0.2rem;
+}
+.pipe-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink-muted);
+}
+.pipe-arrow::after {
+  content: "";
+  width: 1px;
+  height: 100%;
+  min-height: 1.25rem;
+  background: linear-gradient(180deg, var(--color-line), var(--color-accent));
+}
+
+/* ---- Charts -------------------------------------------------------- */
+.chart-bar {
+  transform-origin: bottom;
+  transform: scaleY(0);
+  transition: transform 900ms var(--ease-out-expo);
+}
+.is-visible .chart-bar {
+  transform: scaleY(1);
+}
+
+.chart-line {
+  stroke-dasharray: var(--len, 1200);
+  stroke-dashoffset: var(--len, 1200);
+  transition: stroke-dashoffset 1400ms var(--ease-out-expo);
+}
+.is-visible .chart-line {
+  stroke-dashoffset: 0;
+}
+
+.chart-dot {
+  opacity: 0;
+  transform: scale(0.4);
+  transform-origin: center;
+  transform-box: fill-box;
+  transition:
+    opacity var(--duration-base) var(--ease-out-expo),
+    transform var(--duration-base) var(--ease-out-expo);
+}
+.is-visible .chart-dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.chart-area {
+  opacity: 0;
+  transition: opacity 1100ms var(--ease-out-expo) 300ms;
+}
+.is-visible .chart-area {
+  opacity: 1;
+}
+
+.chart-grid line {
+  stroke: var(--color-line);
+}
+
+/* ---- SVG draw on scroll -------------------------------------------- */
+[data-draw] {
+  stroke-dasharray: var(--len, 1000);
+  stroke-dashoffset: var(--len, 1000);
+  transition: stroke-dashoffset 1600ms var(--ease-out-expo);
+}
+[data-draw].is-visible {
+  stroke-dashoffset: 0;
+}
+
+/* ---- Nav ----------------------------------------------------------- */
+.nav-link {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-ink-muted);
+  padding: 0.4rem 0;
+  transition: color var(--duration-base) var(--ease-out-expo);
+}
+.nav-link:hover {
+  color: var(--color-ink);
+}
+.nav-link.is-active {
+  color: var(--color-accent);
+}
+.nav-ink {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 1.5px;
+  background: var(--color-accent);
+  border-radius: 2px;
+  transition:
+    transform var(--duration-base) var(--ease-out-expo),
+    width var(--duration-base) var(--ease-out-expo);
+  transform-origin: left center;
+}
+
+/* ---- Magnetic button hook ------------------------------------------- */
+[data-magnetic] {
+  will-change: transform;
+  transition: transform var(--duration-fast) var(--ease-out-quart);
+}
+
+/* ---- Interactive list rows (publications / achievements) ------------ */
+.row-link {
+  display: block;
+  transition: background-color var(--duration-base) var(--ease-out-expo);
+}
+.row-link:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* ---- Data flow dots (hero visualisation) --------------------------- */
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -220;
+  }
+}
+.flow-line {
+  stroke-dasharray: 4 10;
+  animation: flow-dash 9s linear infinite;
+}
+@keyframes pulse-node {
+  0%,
+  100% {
+    r: 3;
+    opacity: 0.85;
+  }
+  50% {
+    r: 4.6;
+    opacity: 1;
+  }
+}
+.pulse-node {
+  animation: pulse-node 3.2s var(--ease-in-out-soft) infinite;
+}
+
+/* ---- Mobile simplifications ----------------------------------------- */
+@media (max-width: 767px) {
+  .card-lab {
+    padding: 1.25rem;
+  }
+  /* Keep the concept, cut the cost: fewer decorative pulses on small screens */
+  .pulse-node {
+    animation-duration: 4.5s;
+  }
+  .flow-line {
+    animation-duration: 14s;
+  }
+}
