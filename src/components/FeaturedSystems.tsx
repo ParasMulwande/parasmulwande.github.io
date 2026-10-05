@@ -167,11 +167,11 @@ export const FeaturedSystems: React.FC<FeaturedSystemsProps> = ({ onSelectDoi })
   };
 
   return (
-    <section id="systems" className="py-20 border-b border-white/[0.08] relative">
+    <section id="systems" className="py-12 sm:py-16 border-b border-white/[0.08] relative">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
         
         {/* Section Header */}
-        <div className="space-y-2 mb-12">
+        <div className="space-y-2 mb-6 sm:mb-8">
           <div className="flex items-center gap-2 font-mono-tech text-xs tracking-widest text-white/50 uppercase">
             <span className="text-[#00f0ff] font-semibold">[01 // FLAGSHIP ARCHITECTURES]</span>
           </div>
@@ -184,12 +184,12 @@ export const FeaturedSystems: React.FC<FeaturedSystemsProps> = ({ onSelectDoi })
         </div>
 
         {/* Systems Showcase Stack */}
-        <div className="space-y-12">
+        <div className="space-y-6 sm:space-y-8">
           
           {/* ============================================================ */}
           {/* PROJECT 1: AGRI-WEATHER */}
           {/* ============================================================ */}
-          <div className="rounded-lg border border-white/10 bg-[#0b0b10] p-6 sm:p-8 hover:border-white/20 transition-all duration-300 relative overflow-hidden shadow-2xl">
+          <div className="rounded-lg border border-white/10 bg-[#0b0b10] p-5 sm:p-7 hover:border-white/20 transition-all duration-300 relative overflow-hidden shadow-2xl">
             {/* Top Cyan Sheen Accent */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00f0ff]/70 to-transparent"></div>
 
@@ -208,10 +208,10 @@ export const FeaturedSystems: React.FC<FeaturedSystemsProps> = ({ onSelectDoi })
             </div>
 
             {/* Card Grid Content: Left Details, Right Interactive Telemetry Daemon */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-5 items-center">
               
               {/* Left Column (7 cols): Title, Subtitle, Text, Highlights, Tags, DOI */}
-              <div className="lg:col-span-7 space-y-4">
+              <div className="lg:col-span-7 space-y-3">
                 <div>
                   <h3 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
                     {PROJECTS[0].title}
@@ -454,7 +454,7 @@ export const FeaturedSystems: React.FC<FeaturedSystemsProps> = ({ onSelectDoi })
           {/* ============================================================ */}
           {/* PROJECT 2: VALORCUT AI */}
           {/* ============================================================ */}
-          <div className="rounded-lg border border-white/10 bg-[#0b0b10] p-6 sm:p-8 hover:border-white/20 transition-all duration-300 relative overflow-hidden shadow-2xl">
+          <div className="rounded-lg border border-white/10 bg-[#0b0b10] p-5 sm:p-7 hover:border-white/20 transition-all duration-300 relative overflow-hidden shadow-2xl">
             {/* Top Lime Sheen Accent */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#a3e635]/70 to-transparent"></div>
 
@@ -473,10 +473,10 @@ export const FeaturedSystems: React.FC<FeaturedSystemsProps> = ({ onSelectDoi })
             </div>
 
             {/* Card Grid Content: Left Details, Right Interactive Computer Vision Studio */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-5 items-center">
               
               {/* Left Column (7 cols): Title, Subtitle, Text, Highlights, Tags */}
-              <div className="lg:col-span-7 space-y-4">
+              <div className="lg:col-span-7 space-y-3">
                 <div>
                   <h3 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
                     {PROJECTS[1].title}

@@ -83,11 +83,11 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 border-b border-white/[0.08] relative">
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+    <section id="contact" className="py-12 sm:py-16 border-b border-white/[0.08] relative">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 overflow-x-hidden">
         
         {/* Section Header */}
-        <div className="space-y-2 mb-10">
+        <div className="space-y-2 mb-6 sm:mb-8">
           <div className="flex items-center gap-2 font-mono-tech text-xs tracking-widest text-white/50 uppercase">
             <span className="text-[#00f0ff] font-semibold">[SYSTEM DIRECT CONSOLE // INQUIRY DISPATCH]</span>
           </div>
@@ -108,12 +108,12 @@ export const ContactSection: React.FC = () => {
         </div>
 
         {/* 3 Contact Info Modules */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-5 sm:mb-6">
           
           {/* Card 1: Mailbox */}
-          <div className="rounded-lg border border-white/10 bg-[#0c0c11] p-6 hover:border-[#00f0ff]/40 transition-all duration-200 flex flex-col justify-between shadow-xl">
+          <div className="rounded-lg border border-white/10 bg-[#0c0c11] p-5 sm:p-6 hover:border-[#00f0ff]/40 transition-all duration-200 flex flex-col justify-between shadow-xl">
             <div>
-              <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] mb-4 text-[11px] font-mono-tech">
+              <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.08] mb-3 text-[11px] font-mono-tech">
                 <span className="text-white/50 uppercase tracking-wider">PRIMARY MAILBOX</span>
                 <Mail size={15} className="text-[#00f0ff]" />
               </div>
@@ -125,7 +125,7 @@ export const ContactSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-6 pt-3 border-t border-white/[0.06]">
+            <div className="mt-4 pt-3 border-t border-white/[0.06]">
               <button
                 onClick={handleCopyEmail}
                 id="contact-copy-email-btn"
@@ -147,9 +147,9 @@ export const ContactSection: React.FC = () => {
           </div>
 
           {/* Card 2: Phone */}
-          <div className="rounded-lg border border-white/10 bg-[#0c0c11] p-6 hover:border-[#a3e635]/40 transition-all duration-200 flex flex-col justify-between shadow-xl">
+          <div className="rounded-lg border border-white/10 bg-[#0c0c11] p-5 sm:p-6 hover:border-[#a3e635]/40 transition-all duration-200 flex flex-col justify-between shadow-xl">
             <div>
-              <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] mb-4 text-[11px] font-mono-tech">
+              <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.08] mb-3 text-[11px] font-mono-tech">
                 <span className="text-white/50 uppercase tracking-wider">DIRECT PHONE LINE</span>
                 <Phone size={15} className="text-[#a3e635]" />
               </div>
@@ -161,7 +161,7 @@ export const ContactSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-6 pt-3 border-t border-white/[0.06]">
+            <div className="mt-4 pt-3 border-t border-white/[0.06]">
               <a
                 href={`tel:${PERSONAL_INFO.phone.replace(/\s+/g, '')}`}
                 id="contact-dial-phone-btn"
@@ -174,9 +174,9 @@ export const ContactSection: React.FC = () => {
           </div>
 
           {/* Card 3: Location / Code Hub */}
-          <div className="rounded-lg border border-white/10 bg-[#0c0c11] p-6 hover:border-[#00f0ff]/40 transition-all duration-200 flex flex-col justify-between shadow-xl">
+          <div className="rounded-lg border border-white/10 bg-[#0c0c11] p-5 sm:p-6 hover:border-[#00f0ff]/40 transition-all duration-200 flex flex-col justify-between shadow-xl">
             <div>
-              <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] mb-4 text-[11px] font-mono-tech">
+              <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.08] mb-3 text-[11px] font-mono-tech">
                 <span className="text-white/50 uppercase tracking-wider">STATION & CODE HUB</span>
                 <MapPin size={15} className="text-[#00f0ff]" />
               </div>
@@ -191,7 +191,7 @@ export const ContactSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-6 pt-3 border-t border-white/[0.06] grid grid-cols-2 gap-2">
+            <div className="mt-4 pt-3 border-t border-white/[0.06] grid grid-cols-2 gap-2">
               <a
                 href={PERSONAL_INFO.github}
                 target="_blank"
@@ -216,7 +216,7 @@ export const ContactSection: React.FC = () => {
         </div>
 
         {/* PARAS_CLI // TELEMETRY_SIMULATOR Interactive Terminal */}
-        <div className="rounded-lg border border-white/15 bg-[#09090e] p-5 sm:p-6 shadow-2xl font-mono-tech">
+        <div className="rounded-lg border border-white/15 bg-[#09090e] p-4 sm:p-6 shadow-2xl font-mono-tech overflow-hidden">
           
           {/* Terminal Title Bar */}
           <div className="flex items-center justify-between pb-3 border-b border-white/10 text-xs">
@@ -233,7 +233,7 @@ export const ContactSection: React.FC = () => {
           </div>
 
           {/* Terminal Output Stream */}
-          <div className="py-4 space-y-2 text-xs leading-relaxed max-h-60 overflow-y-auto">
+          <div className="py-3 space-y-2 text-xs leading-relaxed max-h-60 overflow-y-auto">
             {terminalLogs.map((log, index) => (
               <div key={index} className="flex items-start gap-2">
                 {log.type === 'input' && (

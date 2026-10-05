@@ -37,11 +37,11 @@ export const TechnicalArsenal: React.FC = () => {
   }).filter(Boolean);
 
   return (
-    <section id="expertise" className="py-20 border-b border-white/[0.08] relative">
+    <section id="expertise" className="py-12 sm:py-16 border-b border-white/[0.08] relative">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
         
         {/* Section Header */}
-        <div className="space-y-2 mb-12">
+        <div className="space-y-2 mb-6 sm:mb-8">
           <div className="flex items-center gap-2 font-mono-tech text-xs tracking-widest text-white/50 uppercase">
             <span className="text-[#00f0ff] font-semibold">[02 // CAPABILITIES & RUNTIMES]</span>
           </div>
@@ -76,21 +76,21 @@ export const TechnicalArsenal: React.FC = () => {
         </div>
 
         {/* 6 Cards 3x2 Matrix */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {filteredCategories.map((cat) => {
             if (!cat) return null;
             return (
               <div
                 key={cat.id}
                 id={`skill-card-${cat.id}`}
-                className="group rounded-md border border-white/10 bg-[#0c0c11] p-6 hover:border-[#00f0ff]/50 hover:bg-[#101017] transition-all duration-200 flex flex-col justify-between relative overflow-hidden"
+                className="group rounded-md border border-white/10 bg-[#0c0c11] p-5 sm:p-6 hover:border-[#00f0ff]/50 hover:bg-[#101017] transition-all duration-200 flex flex-col justify-between relative overflow-hidden"
               >
                 {/* Subtle top edge sheen on hover */}
                 <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-[#00f0ff] opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
                 <div>
                   {/* Card Title & Code Tag */}
-                  <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] mb-4">
+                  <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.08] mb-3">
                     <div className="flex items-center gap-2 font-mono-tech text-sm font-bold text-white group-hover:text-[#00f0ff] transition-colors">
                       {getIcon(cat.iconName)}
                       <span>{cat.title}</span>
@@ -101,7 +101,7 @@ export const TechnicalArsenal: React.FC = () => {
                   </div>
 
                   {/* Skills Pills */}
-                  <div className="flex flex-wrap gap-1.5 mb-4">
+                  <div className="flex flex-wrap gap-1.5 mb-3">
                     {cat.skills.map((skill) => {
                       const isHighlighted = filterQuery && skill.toLowerCase().includes(filterQuery.toLowerCase());
                       return (

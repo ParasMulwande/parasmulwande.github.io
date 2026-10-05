@@ -8,11 +8,11 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#050507] border-t border-white/[0.08] py-14 text-white/70 font-mono-tech text-xs">
+    <footer className="bg-[#050507] border-t border-white/[0.08] py-8 text-white/70 font-mono-tech text-xs">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
         
         {/* 3-Column Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-white/[0.08] items-start">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 pb-6 border-b border-white/[0.08] items-start">
           
           {/* Left Column: Name, Tagline, Socials (6 cols) */}
           <div className="md:col-span-6 space-y-3">
@@ -89,7 +89,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Copyright Line */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-white/40">
+        <div className="pt-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-white/40">
           <div>
             © 2026 PARAS MULWANDE. ALL RIGHTS RESERVED.
           </div>

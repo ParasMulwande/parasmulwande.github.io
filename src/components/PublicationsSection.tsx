@@ -15,11 +15,11 @@ export const PublicationsSection: React.FC = () => {
   };
 
   return (
-    <section id="publications" className="py-20 border-b border-white/[0.08] relative">
+    <section id="publications" className="py-12 sm:py-16 border-b border-white/[0.08] relative">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
         
         {/* Section Header */}
-        <div className="space-y-2 mb-12">
+        <div className="space-y-2 mb-6 sm:mb-8">
           <div className="flex items-center gap-2 font-mono-tech text-xs tracking-widest text-white/50 uppercase">
             <span className="text-[#00f0ff] font-semibold">[03 // SCHOLARLY CONTRIBUTIONS]</span>
           </div>
@@ -32,18 +32,18 @@ export const PublicationsSection: React.FC = () => {
         </div>
 
         {/* Papers Stack */}
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4">
           {PUBLICATIONS.map((pub) => (
             <div
               key={pub.id}
               id={`pub-${pub.id}`}
-              className="rounded-lg border border-white/10 bg-[#0c0c11] p-6 sm:p-7 hover:border-white/20 transition-all relative overflow-hidden group shadow-xl"
+              className="rounded-lg border border-white/10 bg-[#0c0c11] p-5 sm:p-6 hover:border-white/20 transition-all relative overflow-hidden group shadow-xl"
             >
               {/* Top Accent Line */}
               <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-[#00f0ff]/50 via-transparent to-transparent"></div>
 
               {/* Meta Header Row */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-white/[0.08] font-mono-tech text-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/[0.08] font-mono-tech text-xs">
                 <div className="flex items-center gap-2.5 flex-wrap">
                   <span className="px-2 py-0.5 rounded bg-[#00f0ff]/10 border border-[#00f0ff]/30 text-[#00f0ff] font-semibold text-[10px] tracking-wider">
                     {pub.type}
@@ -77,7 +77,7 @@ export const PublicationsSection: React.FC = () => {
               </div>
 
               {/* Paper Content */}
-              <div className="mt-4 space-y-3">
+              <div className="mt-3.5 space-y-2.5">
                 <h3 className="font-display text-xl sm:text-2xl font-bold text-white group-hover:text-[#00f0ff] transition-colors leading-tight">
                   {pub.title}
                 </h3>
@@ -92,7 +92,7 @@ export const PublicationsSection: React.FC = () => {
               </div>
 
               {/* Interactive Footer Actions */}
-              <div className="mt-5 pt-3 border-t border-white/[0.06] flex items-center justify-between font-mono-tech text-xs">
+              <div className="mt-4 pt-2.5 border-t border-white/[0.06] flex items-center justify-between font-mono-tech text-xs">
                 <button
                   onClick={() => setSelectedPub(pub)}
                   className="text-white/70 hover:text-[#00f0ff] inline-flex items-center gap-1.5 cursor-pointer text-[11px] transition-colors"

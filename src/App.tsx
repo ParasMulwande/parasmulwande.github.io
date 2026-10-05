@@ -15,7 +15,6 @@ import { ExperienceEducation } from './components/ExperienceEducation';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { ProfileModal } from './components/ProfileModal';
-import { TwinklingDotGrid } from './components/TwinklingDotGrid';
 import { BootIntro } from './components/BootIntro';
 
 export default function App() {
@@ -41,9 +40,8 @@ export default function App() {
   }
 
   return (
-    <div className="w-full max-w-none min-h-screen bg-[#070709] text-[#e5e1e4] selection:bg-[#00f0ff]/30 selection:text-[#00f0ff] cyber-grid-bg relative flex flex-col font-body">
-      {/* Animated Subtle Background Dot Grid */}
-      <TwinklingDotGrid />
+    <div className="w-full max-w-none min-h-screen bg-bg text-ink font-body relative flex flex-col">
+      {/* Global background atmosphere is provided by body::before / body::after in index.css */}
       
       {/* Top Fixed Navigation */}
       <Navbar onOpenProfile={() => setProfileModalOpen(true)} />
