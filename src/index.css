@@ -824,22 +824,6 @@ p {
 .tl-item {
   position: relative;
 }
-.tl-item::before {
-  content: "";
-  position: absolute;
-  left: -1.75rem;
-  top: 6px;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--color-bg);
-  border: 2px solid var(--color-accent);
-  box-shadow: 0 0 0 4px rgba(0, 168, 255, 0.08);
-  transition: box-shadow var(--duration-base) var(--ease-out-expo);
-}
-.tl-item:hover::before {
-  box-shadow: 0 0 0 6px rgba(0, 168, 255, 0.16);
-}
 
 /* ---- Pipeline (data lab) ------------------------------------------- */
 .pipe {
@@ -1028,5 +1012,270 @@ p {
   }
   .flow-line {
     animation-duration: 14s;
+  }
+}
+
+/* =====================================================================
+   CINEMATIC LAYER
+   ===================================================================== */
+
+/* ---- Cursor aura (follows pointer, desktop only) -------------------- */
+.cursor-aura {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34rem;
+  height: 34rem;
+  margin: -17rem 0 0 -17rem;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  background: radial-gradient(
+    circle,
+    rgba(0, 168, 255, 0.09) 0%,
+    rgba(0, 102, 255, 0.05) 34%,
+    transparent 68%
+  );
+  transition: opacity 500ms var(--ease-out-expo);
+  will-change: transform;
+}
+.cursor-aura.is-on {
+  opacity: 1;
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor-aura {
+    display: none;
+  }
+}
+
+/* ---- Cursor proximity glow ------------------------------------------- */
+.proximity {
+  transition:
+    transform var(--duration-base) var(--ease-out-expo),
+    border-color var(--duration-base) var(--ease-out-expo),
+    box-shadow var(--duration-base) var(--ease-out-expo);
+}
+.proximity::after {
+  opacity: calc(var(--prox, 0) * 0.7);
+}
+.proximity:hover {
+  transform: translateY(-3px);
+}
+
+/* ---- Load sequence -------------------------------------------------- */
+@keyframes seq-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+@keyframes seq-clip {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes seq-wipe {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+.seq {
+  opacity: 0;
+  animation: seq-rise 780ms var(--ease-out-expo) forwards;
+  animation-delay: calc(var(--seq, 0) * 110ms + 180ms);
+}
+.seq-clip {
+  opacity: 0;
+  animation: seq-clip 900ms var(--ease-out-expo) forwards;
+  animation-delay: calc(var(--seq, 0) * 110ms + 180ms);
+}
+.seq-wipe {
+  opacity: 0;
+  animation: seq-wipe 760ms var(--ease-out-expo) forwards;
+  animation-delay: calc(var(--seq, 0) * 110ms + 180ms);
+}
+
+/* ---- Light sweep on hover ------------------------------------------- */
+.sweep {
+  position: relative;
+  overflow: hidden;
+}
+.sweep::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 45%;
+  left: -60%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(0, 168, 255, 0.07),
+    transparent
+  );
+  transform: skewX(-14deg);
+  transition: left 720ms var(--ease-out-expo);
+  pointer-events: none;
+}
+.sweep:hover::before {
+  left: 115%;
+}
+
+/* ---- Skill constellation -------------------------------------------- */
+.orbit-node {
+  cursor: pointer;
+}
+.orbit-halo {
+  transition:
+    opacity 380ms var(--ease-out-expo),
+    r 380ms var(--ease-out-expo);
+  opacity: 0;
+}
+.orbit-link {
+  transition:
+    stroke 380ms var(--ease-out-expo),
+    stroke-opacity 380ms var(--ease-out-expo),
+    stroke-width 380ms var(--ease-out-expo);
+}
+.orbit-label {
+  transition:
+    fill 300ms var(--ease-out-expo),
+    opacity 300ms var(--ease-out-expo);
+}
+
+/* ---- Timeline draw --------------------------------------------------- */
+.tl-progress {
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--color-accent), rgba(0, 102, 255, 0.35));
+  height: var(--tl, 0%);
+  transition: height 120ms linear;
+}
+.tl-node {
+  transition:
+    transform 400ms var(--ease-out-expo),
+    box-shadow 400ms var(--ease-out-expo),
+    border-color 400ms var(--ease-out-expo);
+}
+.tl-item.is-active .tl-node {
+  transform: scale(1.35);
+  box-shadow: 0 0 0 7px rgba(0, 168, 255, 0.12);
+}
+
+/* ---- Dataset console -------------------------------------------------- */
+.console-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+@keyframes scan-sweep {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(400%);
+  }
+}
+.scan-line {
+  animation: scan-sweep 5.5s var(--ease-in-out-soft) infinite;
+}
+
+/* ---- Portrait / media slot (photo & resume ready) --------------------- */
+.media-slot {
+  position: relative;
+  border: 1px dashed var(--color-line-2);
+  border-radius: var(--radius-card);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.03), transparent 60%);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.media-slot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    120% 90% at 50% 0%,
+    rgba(0, 168, 255, 0.08),
+    transparent 62%
+  );
+  pointer-events: none;
+}
+.monogram {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  background: linear-gradient(140deg, var(--color-ink), var(--color-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- Divider glow ----------------------------------------------------- */
+.hairline {
+  position: relative;
+  height: 1px;
+  background: var(--color-line);
+  overflow: hidden;
+}
+.hairline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  transform: translateX(-100%);
+  animation: hairline-run 5.5s var(--ease-in-out-soft) infinite;
+}
+@keyframes hairline-run {
+  0%,
+  60% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ---- Reduced motion: neutralise the cinematic layer ------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .cursor-aura {
+    display: none;
+  }
+  .seq,
+  .seq-clip,
+  .seq-wipe {
+    animation: none;
+    opacity: 1;
+    clip-path: none;
+    filter: none;
+  }
+  .sweep::before,
+  .hairline::after,
+  .scan-line {
+    animation: none;
+  }
+  .tl-progress {
+    transition: none;
   }
 }

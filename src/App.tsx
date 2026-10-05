@@ -25,10 +25,7 @@ export default function App() {
   const [bootComplete, setBootComplete] = useState(false);
 
   useEffect(() => {
-    const hasBooted = sessionStorage.getItem('portfolio_booted');
-    if (hasBooted) {
-      setBootComplete(true);
-    }
+    if (sessionStorage.getItem('portfolio_booted')) setBootComplete(true);
   }, []);
 
   const handleBootComplete = () => {
@@ -36,13 +33,12 @@ export default function App() {
     setBootComplete(true);
   };
 
-  if (!bootComplete) {
-    return <BootIntro onComplete={handleBootComplete} />;
-  }
+  if (!bootComplete) return <BootIntro onComplete={handleBootComplete} />;
 
   return (
     <div className="relative flex min-h-screen w-full max-w-none flex-col bg-bg font-body text-ink">
-      {/* Global background atmosphere lives in index.css (body::before / ::after) */}
+      {/* Atmosphere lives in index.css; the aura is driven by lib/pointer */}
+      <div className="cursor-aura" aria-hidden="true" />
 
       <Navbar onOpenProfile={() => setProfileModalOpen(true)} />
 
@@ -65,10 +61,7 @@ export default function App() {
 
       <Footer />
 
-      <ProfileModal
-        isOpen={profileModalOpen}
-        onClose={() => setProfileModalOpen(false)}
-      />
+      <ProfileModal isOpen={profileModalOpen} onClose={() => setProfileModalOpen(false)} />
     </div>
   );
 }

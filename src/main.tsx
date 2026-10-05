@@ -4,9 +4,10 @@ import App from './App.tsx';
 import { initReveal } from './lib/reveal.ts';
 import { initAnim } from './lib/anim.ts';
 import { initNavSpy } from './lib/navspy.ts';
+import { initPointer } from './lib/pointer.ts';
 import './index.css';
 
-const dispose = [initReveal(), initAnim(), initNavSpy()];
+const dispose = [initReveal(), initAnim(), initNavSpy(), initPointer()];
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

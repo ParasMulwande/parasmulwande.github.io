@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, MessageCircle } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 
 const NAV = [
@@ -50,17 +50,19 @@ export const Footer: React.FC = () => {
             <div className="stat-label mb-3">Elsewhere</div>
             <ul className="space-y-2">
               {[
-                { label: 'GitHub', href: PERSONAL_INFO.github },
-                { label: 'LinkedIn', href: PERSONAL_INFO.linkedin },
-                { label: 'Email', href: `mailto:${PERSONAL_INFO.email}` },
+                { label: 'GitHub', href: PERSONAL_INFO.github, external: true },
+                { label: 'LinkedIn', href: PERSONAL_INFO.linkedin, external: true },
+                { label: 'WhatsApp', href: `https://wa.me/${PERSONAL_INFO.whatsapp}`, external: true },
+                { label: 'Email', href: `mailto:${PERSONAL_INFO.email}`, external: false },
               ].map((l) => (
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    target={l.href.startsWith('http') ? '_blank' : undefined}
-                    rel={l.href.startsWith('http') ? 'noreferrer' : undefined}
-                    className="text-sm text-ink-muted transition-colors duration-200 hover:text-accent"
+                    target={l.external ? '_blank' : undefined}
+                    rel={l.external ? 'noreferrer' : undefined}
+                    className="inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors duration-200 hover:text-accent"
                   >
+                    {l.label === 'WhatsApp' ? <MessageCircle size={12} /> : null}
                     {l.label}
                   </a>
                 </li>

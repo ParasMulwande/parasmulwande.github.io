@@ -14,8 +14,10 @@ export const PERSONAL_INFO = {
   availabilityBadge: "AVAILABLE FOR Q2/Q3 ROLES & COLLABS",
   email: "paras.mulwande@gmail.com",
   phone: "+91 8007752979",
-  github: "https://github.com/parasmulwande-sketch",
-  linkedin: "https://linkedin.com/in/paras-mulwande",
+  whatsapp: "908007752979",
+  whatsappDisplay: "+90 800 775 2979",
+  github: "https://github.com/ParasMulwande",
+  linkedin: "https://www.linkedin.com/in/parasmulwande/",
   systemVersion: "SYS.ONLINE // 2025.V4",
   telemetry: {
     onlinePercent: "99.8%",

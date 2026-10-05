@@ -1,179 +1,149 @@
 import React from 'react';
-import { BarChart3, LineChart, ChartScatter } from 'lucide-react';
+import { Section } from './ui/Section';
+import { Card } from './ui/Card';
+import { DatasetConsole } from './viz/DatasetConsole';
 
 const STAGES = [
-  { step: '01', label: 'Raw data', note: 'Leaf imagery, weather feeds, telemetry' },
-  { step: '02', label: 'Clean', note: 'Null handling, dedupe, normalisation' },
-  { step: '03', label: 'Analyze', note: 'EDA, distributions, correlation' },
-  { step: '04', label: 'Model', note: 'CNN, Random Forest, XGBoost' },
-  { step: '05', label: 'Insight', note: 'Diagnosis and recommendations' },
+  { step: '01', label: 'Raw data', note: 'imagery, feeds, telemetry' },
+  { step: '02', label: 'Clean', note: 'nulls, dupes, types' },
+  { step: '03', label: 'Analyze', note: 'EDA, distributions' },
+  { step: '04', label: 'Model', note: 'CNN, RF, XGBoost' },
+  { step: '05', label: 'Predict', note: 'inference' },
+  { step: '06', label: 'Insight', note: 'decision' },
 ];
 
-const seeded = (i: number) => {
-  const x = Math.sin(i * 12.9898) * 43758.5453;
-  return x - Math.floor(x);
-};
+export const DataLabShowcase: React.FC = () => (
+  <Section
+    id="datalab"
+    eyebrow="Data lab"
+    title="The loop behind every project."
+    lede="Collect, clean, interrogate, model, then ship the answer somewhere useful. This console is interactive — step through the pipeline."
+  >
+    {/* Pipeline */}
+    <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+      {STAGES.map((s, i) => (
+        <li key={s.step}>
+          <div className="pipe-node h-full" data-reveal data-reveal-delay={i * 60}>
+            <div className="pipe-step">{s.step}</div>
+            <div className="pipe-label">{s.label}</div>
+            <p className="mt-1.5 text-[11px] leading-relaxed text-ink-muted">{s.note}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
 
-/** ROC-style curve — illustrative of the evaluation work described in the projects. */
-const rocPath = (w: number, h: number) => {
-  const pts = Array.from({ length: 24 }, (_, i) => {
-    const t = i / 23;
-    const x = t * w;
-    const y = h - (0.06 + 0.94 * Math.pow(t, 0.42)) * h;
-    return [x, y] as const;
-  });
-  return pts.map(([x, y], i) => `${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
-};
+    <div className="mt-6">
+      <DatasetConsole />
+    </div>
 
-export const DataLabShowcase: React.FC = () => {
-  const W = 200;
-  const H = 120;
-
-  return (
-    <section id="datalab" className="section-y border-b border-white/[0.06]">
-      <div className="shell">
-        <p className="eyebrow" data-reveal>
-          Data lab
-        </p>
-        <h2 className="t-h1 mt-4 max-w-2xl" data-reveal data-reveal-delay="60">
-          How the work actually moves.
-        </h2>
-        <p className="t-lead mt-4 max-w-2xl" data-reveal data-reveal-delay="100">
-          The same loop runs behind every project here — collect, clean,
-          interrogate, model, then ship the answer somewhere useful.
-        </p>
-
-        {/* Pipeline */}
-        <div
-          className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5"
-          data-reveal
-          data-reveal-delay="120"
+    {/* Supporting charts */}
+    <div className="mt-6 grid gap-5 lg:grid-cols-3">
+      {/* Evaluation */}
+      <Card reactive delay={60}>
+        <span className="stat-label">Evaluation</span>
+        <svg
+          viewBox="0 0 220 130"
+          className="mt-4 w-full"
+          role="img"
+          aria-label="Illustrative ROC curve rising steeply toward the top right, indicating strong classifier discrimination."
         >
-          {STAGES.map((s, i) => (
-            <React.Fragment key={s.step}>
-              <div
-                className="pipe-node"
-                data-reveal
-                data-reveal-delay={i * 80}
-              >
-                <div className="pipe-step">{s.step}</div>
-                <div className="pipe-label">{s.label}</div>
-                <p className="mt-1.5 text-[11px] leading-relaxed text-ink-muted">{s.note}</p>
-              </div>
-              {i < STAGES.length - 1 && (
-                <div className="pipe-arrow hidden lg:flex" aria-hidden="true">
-                  <span className="sr-only">then</span>
+          <g className="chart-grid">
+            <line x1="0" y1="130" x2="220" y2="0" strokeWidth="0.5" opacity="0.5" />
+            {[0.25, 0.5, 0.75].map((f) => (
+              <line key={f} x1={220 * f} y1="0" x2={220 * f} y2="130" strokeWidth="0.5" opacity="0.3" />
+            ))}
+          </g>
+          <path
+            className="chart-line"
+            d={Array.from({ length: 22 }, (_, i) => {
+              const t = i / 21;
+              const x = t * 220;
+              const y = 130 - (0.05 + 0.95 * Math.pow(t, 0.4)) * 130;
+              return `${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`;
+            }).join(' ')}
+            fill="none"
+            stroke="#00A8FF"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          />
+        </svg>
+        <p className="mt-3 text-[11px] leading-relaxed text-ink-muted">
+          Discrimination reported per model, not asserted once.
+        </p>
+      </Card>
+
+      {/* Feature importance */}
+      <Card reactive delay={110}>
+        <span className="stat-label">Feature importance</span>
+        <div className="mt-5 space-y-3">
+          {['Canopy cover', 'Soil moisture', 'Leaf lesions', 'Rainfall 7d', 'Temperature'].map(
+            (f, i) => {
+              const v = 0.94 - i * 0.17;
+              return (
+                <div key={f}>
+                  <div className="mb-1 flex items-baseline justify-between">
+                    <span className="text-[11px] text-ink-secondary">{f}</span>
+                    <span className="font-mono-tech text-[10px] text-ink-muted">{v.toFixed(2)}</span>
+                  </div>
+                  <div className="h-1 overflow-hidden rounded-full bg-white/[0.05]">
+                    <div
+                      className="h-full origin-left rounded-full bg-gradient-to-r from-[#0066FF] to-accent"
+                      style={{
+                        transform: 'scaleX(var(--v))',
+                        ['--v' as string]: v,
+                        transition: 'transform 900ms var(--ease-out-expo)',
+                        transitionDelay: `${i * 90}ms`,
+                      }}
+                    />
+                  </div>
                 </div>
-              )}
-            </React.Fragment>
-          ))}
+              );
+            },
+          )}
         </div>
+        <p className="mt-4 text-[11px] leading-relaxed text-ink-muted">
+          Which signals carried the predictive weight, ranked.
+        </p>
+      </Card>
 
-        {/* Chart gallery */}
-        <div className="mt-10 grid gap-5 lg:grid-cols-3">
-          {/* ROC */}
-          <div className="card-lab" data-reveal data-reveal-delay="60">
-            <div className="flex items-center gap-2">
-              <LineChart size={15} className="text-accent" />
-              <span className="stat-label">Model evaluation</span>
-            </div>
-            <svg viewBox={`0 0 ${W} ${H}`} className="mt-4 w-full" role="img" aria-label="Illustrative ROC curve rising steeply toward the top right, indicating strong classifier discrimination.">
-              <g className="chart-grid">
-                <line x1={0} y1={H} x2={W} y2={0} strokeWidth={0.5} opacity={0.5} />
-                {[0.25, 0.5, 0.75].map((f) => (
-                  <line key={f} x1={W * f} y1={0} x2={W * f} y2={H} strokeWidth={0.5} opacity={0.35} />
-                ))}
-              </g>
-              <path
-                className="chart-line"
-                d={rocPath(W, H)}
-                fill="none"
-                stroke="#00A8FF"
-                strokeWidth={1.8}
-                strokeLinecap="round"
+      {/* Clustering */}
+      <Card reactive delay={160}>
+        <span className="stat-label">Cluster separation</span>
+        <svg
+          viewBox="0 0 220 130"
+          className="mt-4 w-full"
+          role="img"
+          aria-label="Illustrative scatter plot showing three separated clusters."
+        >
+          <g className="chart-grid">
+            <line x1="0" y1="130" x2="220" y2="0" strokeWidth="0.5" opacity="0.5" />
+          </g>
+          {Array.from({ length: 40 }, (_, i) => {
+            const c = i % 3;
+            const s = Math.sin(i * 45.233) * 10000;
+            const r1 = s - Math.floor(s);
+            const s2 = Math.sin(i * 12.71) * 10000;
+            const r2 = s2 - Math.floor(s2);
+            const cx = 36 + c * 70 + (r1 - 0.5) * 40;
+            const cy = 100 - c * 28 + (r2 - 0.5) * 46;
+            return (
+              <circle
+                key={i}
+                className="chart-dot"
+                cx={cx}
+                cy={cy}
+                r={2.8}
+                fill={c === 1 ? '#00A8FF' : c === 2 ? '#4F46E5' : '#697386'}
+                opacity={c === 1 ? 0.95 : 0.6}
+                style={{ transitionDelay: `${i * 26}ms` }}
               />
-              <path d={`M 0 ${H} L ${W} ${H}`} stroke="#697386" strokeWidth={0.75} opacity={0.5} fill="none" />
-            </svg>
-            <p className="mt-3 text-[11px] leading-relaxed text-ink-muted">
-              Cross-validated discrimination, reported per model rather than
-              asserted once.
-            </p>
-          </div>
-
-          {/* Feature importance */}
-          <div className="card-lab" data-reveal data-reveal-delay="120">
-            <div className="flex items-center gap-2">
-              <BarChart3 size={15} className="text-accent" />
-              <span className="stat-label">Feature importance</span>
-            </div>
-            <div className="mt-5 space-y-3">
-              {['Canopy cover', 'Soil moisture', 'Leaf lesions', 'Rainfall 7d', 'Temperature'].map(
-                (f, i) => {
-                  const v = 0.92 - i * 0.16 - seeded(i) * 0.05;
-                  return (
-                    <div key={f}>
-                      <div className="mb-1 flex items-baseline justify-between">
-                        <span className="text-[11px] text-ink-secondary">{f}</span>
-                        <span className="font-mono-tech text-[10px] text-ink-muted">
-                          {v.toFixed(2)}
-                        </span>
-                      </div>
-                      <div className="h-1 overflow-hidden rounded-full bg-white/[0.05]">
-                        <div
-                          className="chart-bar h-full origin-left rounded-full bg-gradient-to-r from-[#0066FF] to-accent"
-                          style={{
-                            transform: 'scaleX(var(--v))',
-                            ['--v' as string]: v,
-                            width: '100%',
-                            transitionDelay: `${i * 90}ms`,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  );
-                },
-              )}
-            </div>
-            <p className="mt-4 text-[11px] leading-relaxed text-ink-muted">
-              Which signals actually carried predictive weight, ranked rather
-              than hand-waved.
-            </p>
-          </div>
-
-          {/* Scatter / clustering */}
-          <div className="card-lab" data-reveal data-reveal-delay="180">
-            <div className="flex items-center gap-2">
-              <ChartScatter size={15} className="text-accent" />
-              <span className="stat-label">Cluster separation</span>
-            </div>
-            <svg viewBox={`0 0 ${W} ${H}`} className="mt-4 w-full" role="img" aria-label="Scatter plot of two clusters separated into distinct groups.">
-              <g className="chart-grid">
-                <line x1={0} y1={H} x2={W} y2={0} strokeWidth={0.5} opacity={0.5} />
-              </g>
-              {Array.from({ length: 34 }, (_, i) => {
-                const cluster = i % 3;
-                const cx = 34 + cluster * 62 + (seeded(i) - 0.5) * 34;
-                const cy = 96 - cluster * 26 + (seeded(i + 9) - 0.5) * 46;
-                return (
-                  <circle
-                    key={i}
-                    className="chart-dot"
-                    cx={cx}
-                    cy={cy}
-                    r={2.6}
-                    fill={cluster === 1 ? '#00A8FF' : cluster === 2 ? '#4F46E5' : '#697386'}
-                    opacity={cluster === 1 ? 0.95 : 0.6}
-                    style={{ transitionDelay: `${i * 28}ms` }}
-                  />
-                );
-              })}
-            </svg>
-            <p className="mt-3 text-[11px] leading-relaxed text-ink-muted">
-              Group structure checked visually before trusting any aggregate.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+            );
+          })}
+        </svg>
+        <p className="mt-3 text-[11px] leading-relaxed text-ink-muted">
+          Group structure checked visually before trusting any aggregate.
+        </p>
+      </Card>
+    </div>
+  </Section>
+);
