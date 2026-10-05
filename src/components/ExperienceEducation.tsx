@@ -5,7 +5,7 @@ import { CheckCircle2, GraduationCap, Briefcase, Sparkles } from 'lucide-react';
 export const ExperienceEducation: React.FC = () => {
   return (
     <section id="experience" className="py-12 sm:py-16 border-b border-white/[0.08] relative">
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+      <div className="shell">
         
         {/* Dual Column Layout: Left Experience (7 cols), Right Education (5 cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">

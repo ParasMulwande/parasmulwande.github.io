@@ -22,7 +22,7 @@ export const TelemetryStatusBar: React.FC = () => {
 
   return (
     <div className="border-b border-white/[0.06] bg-[#08080b] py-2">
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] font-mono-tech tracking-wider text-[#8e8e9f]">
+      <div className="shell flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] font-mono-tech tracking-wider text-[#8e8e9f]">
         
         {/* Left Telemetry Status */}
         <div className="flex items-center gap-2">

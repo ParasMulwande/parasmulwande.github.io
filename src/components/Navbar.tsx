@@ -19,7 +19,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenProfile }) => {
 
   return (
     <header className="sticky top-0 z-50 bg-[#070709]/90 backdrop-blur-md border-b border-white/[0.08] transition-all">
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 h-16 flex items-center justify-between">
+      <div className="shell h-16 flex items-center justify-between">
         
         {/* Left ID + Live Status Badge */}
         <div className="flex items-center gap-3 sm:gap-4">

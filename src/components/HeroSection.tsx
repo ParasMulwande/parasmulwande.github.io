@@ -26,7 +26,7 @@ export const HeroSection: React.FC = () => {
         <div className="absolute top-20 left-10 w-80 h-80 bg-[#00f0ff]/5 rounded-full blur-[100px]"></div>
       </div>
 
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+      <div className="shell">
         
         {/* Top Label */}
         <div className="mb-4">

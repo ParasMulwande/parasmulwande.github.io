@@ -168,7 +168,7 @@ export const FeaturedSystems: React.FC<FeaturedSystemsProps> = ({ onSelectDoi })
 
   return (
     <section id="systems" className="py-12 sm:py-16 border-b border-white/[0.08] relative">
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+      <div className="shell">
         
         {/* Section Header */}
         <div className="space-y-2 mb-6 sm:mb-8">
