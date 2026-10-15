@@ -1,23 +1,23 @@
 import React from 'react';
 
 /**
- * Buttons — one implementation for every CTA on the site.
+ * Buttons — Apple-inspired interaction physics with immediate pointer-down feedback.
  *
- * `magnetic` opts into the pointer drift from lib/pointer; it is ignored on
- * touch devices and under reduced motion.
+ * `magnetic` opts into subtle pointer drift from lib/pointer.
  */
 
 type Variant = 'primary' | 'secondary' | 'ghost';
 
 const BASE =
-  'group inline-flex items-center justify-center gap-2 rounded-[11px] px-5 py-3 text-sm font-semibold transition-all duration-200 will-change-transform';
+  'group relative inline-flex items-center justify-center gap-2 rounded-[12px] px-5 py-2.5 text-[14px] font-medium tracking-tight transition-all duration-200 active:scale-[0.98] will-change-transform select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg isolate';
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    'bg-accent text-[#05070B] hover:bg-[#3CBCFF] hover:shadow-[0_10px_30px_rgba(0,168,255,0.28)]',
+    'bg-[#f5f5f7] text-[#000000] hover:bg-white hover:shadow-[0_4px_16px_rgba(255,255,255,0.18)] font-semibold border border-transparent',
   secondary:
-    'border border-white/10 bg-white/[0.02] text-ink hover:border-accent/40 hover:bg-accent/10 hover:text-accent',
-  ghost: 'text-ink-secondary hover:text-ink hover:bg-white/[0.04]',
+    'border border-white/10 bg-white/[0.04] text-[#f5f5f7] hover:bg-white/[0.08] hover:border-white/25 backdrop-blur-md',
+  ghost:
+    'text-[#a1a1a6] hover:text-[#f5f5f7] hover:bg-white/[0.05] border border-transparent',
 };
 
 interface CommonProps {

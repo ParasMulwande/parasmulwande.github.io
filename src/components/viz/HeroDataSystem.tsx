@@ -1,23 +1,28 @@
 import React, { useEffect, useRef } from 'react';
 
 /**
- * Hero data system.
+ * High-End Scientific Neural Architecture Visualization.
  *
- * RAW DATA -> ANALYSIS -> MODEL -> PREDICTION -> INSIGHT rendered on a single
- * canvas: a node graph, packets travelling the edges, and a live prediction
- * readout. Nodes react to the cursor.
- *
- * Performance: one rAF loop, no per-frame allocation, DPR capped at 2, paused
- * when the tab is hidden, thinned on small screens, and rendered as a single
- * static frame under prefers-reduced-motion.
+ * Designed with Apple & scientific precision:
+ * - High-contrast, sharp typography for layer headers and architectural annotations.
+ * - Symmetrical, perfectly spaced 5-layer directed acyclic graph.
+ * - Restrained, slow-moving signal pulses along select synaptic pathways.
+ * - Refined node illumination with hairline rings and electric-blue core anchors.
+ * - Lightweight Canvas rendering with automatic DPI scaling, resize handling, and reduced motion fallback.
  */
 
-const STAGES = [
-  { key: 'raw', label: 'RAW DATA' },
-  { key: 'analysis', label: 'ANALYSIS' },
-  { key: 'model', label: 'MODEL' },
-  { key: 'prediction', label: 'PREDICTION' },
-  { key: 'insight', label: 'INSIGHT' },
+interface ArchitectureLayer {
+  id: string;
+  label: string;
+  nodeCount: number;
+}
+
+const LAYERS: ArchitectureLayer[] = [
+  { id: 'input', label: 'INPUT TENSOR', nodeCount: 4 },
+  { id: 'conv', label: 'CONV EMBEDDING', nodeCount: 6 },
+  { id: 'latent', label: 'LATENT SPACE', nodeCount: 5 },
+  { id: 'dense', label: 'DENSE HEAD', nodeCount: 4 },
+  { id: 'output', label: 'INFERENCE', nodeCount: 2 },
 ];
 
 interface Node {
@@ -26,37 +31,28 @@ interface Node {
   ox: number;
   oy: number;
   r: number;
+  layerIdx: number;
+  nodeIdx: number;
   phase: number;
-  stage: number;
-}
-
-interface Packet {
-  edge: number;
-  t: number;
-  speed: number;
-  hue: number;
 }
 
 interface Edge {
   a: number;
   b: number;
+  weight: number;
+}
+
+interface Pulse {
+  edgeIdx: number;
+  t: number;
+  speed: number;
 }
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-/** Deterministic PRNG so the graph is stable across re-renders. */
-const makeRng = (seed: number) => {
-  let s = seed >>> 0;
-  return () => {
-    s = (s * 1664525 + 1013904223) >>> 0;
-    return s / 4294967296;
-  };
-};
-
 export const HeroDataSystem: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
-  const readRef = useRef<HTMLParagraphElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -67,19 +63,14 @@ export const HeroDataSystem: React.FC = () => {
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     let reduced = reduce.matches;
-    const onMq = (e: MediaQueryListEvent) => {
-      reduced = e.matches;
-    };
-    reduce.addEventListener?.('change', onMq);
 
     let w = 0;
     let h = 0;
     let dpr = 1;
-    let compact = false;
 
     let nodes: Node[] = [];
     let edges: Edge[] = [];
-    let packets: Packet[] = [];
+    let pulses: Pulse[] = [];
 
     const mouse = { x: -9999, y: -9999, active: false };
 
@@ -94,45 +85,83 @@ export const HeroDataSystem: React.FC = () => {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
 
-      compact = w < 640;
-      const rng = makeRng(20260921);
+      const compact = w < 540;
+      nodes = [];
+      edges = [];
+      pulses = [];
 
-      // One hub per stage, laid out on a gentle arc.
-      const hubs = STAGES.length;
-      const padX = compact ? 0.3 : 0.14;
-      const cx = w / 2;
-      const cy = h * (compact ? 0.44 : 0.5);
-      const spread = Math.min(w * (1 - padX * 2), compact ? 320 : 760);
+      const layerCount = LAYERS.length;
+      const marginX = compact ? 36 : 56;
+      const colWidth = (w - marginX * 2) / (layerCount - 1);
+      const topPadding = compact ? 48 : 56;
+      const bottomPadding = compact ? 44 : 50;
+      const usableHeight = h - topPadding - bottomPadding;
 
-      nodes = STAGES.map((_, i) => {
-        const t = hubs === 1 ? 0.5 : i / (hubs - 1);
-        const x = cx - spread / 2 + t * spread;
-        const y = cy + Math.sin(t * Math.PI) * -h * 0.14 + (rng() - 0.5) * h * 0.06;
-        return { x, y, ox: x, oy: y, r: compact ? 3.2 : 4.2, phase: rng() * Math.PI * 2, stage: i };
+      let globalNodeIdx = 0;
+      const layerNodeIndices: number[][] = [];
+
+      // Calculate node positions with optical symmetry
+      LAYERS.forEach((layer, lIdx) => {
+        const x = marginX + lIdx * colWidth;
+        const currentIndices: number[] = [];
+        const count = layer.nodeCount;
+        const nodeSpacing = usableHeight / (count + 1);
+
+        for (let nIdx = 0; nIdx < count; nIdx++) {
+          const y = topPadding + (nIdx + 1) * nodeSpacing;
+          const isAnchor = lIdx === 0 || lIdx === layerCount - 1;
+          const r = compact ? (isAnchor ? 4 : 3) : (isAnchor ? 4.8 : 3.6);
+
+          nodes.push({
+            x,
+            y,
+            ox: x,
+            oy: y,
+            r,
+            layerIdx: lIdx,
+            nodeIdx: nIdx,
+            phase: (lIdx * 1.5 + nIdx * 0.8) % (Math.PI * 2),
+          });
+
+          currentIndices.push(globalNodeIdx);
+          globalNodeIdx++;
+        }
+        layerNodeIndices.push(currentIndices);
       });
 
-      // Chain the stages, then add a few cross links for a network feel.
-      edges = [];
-      for (let i = 0; i < hubs - 1; i++) edges.push({ a: i, b: i + 1 });
-      const extra = compact ? 2 : 6;
-      for (let k = 0; k < extra; k++) {
-        const a = Math.floor(rng() * (hubs - 1));
-        const b = a + 1 + Math.floor(rng() * Math.min(2, hubs - 1 - a));
-        if (b < hubs && !edges.some((e) => e.a === a && e.b === b)) edges.push({ a, b });
+      // Construct selective, elegant synaptic connections
+      for (let l = 0; l < layerCount - 1; l++) {
+        const fromIndices = layerNodeIndices[l];
+        const toIndices = layerNodeIndices[l + 1];
+
+        fromIndices.forEach((fIdx, fi) => {
+          toIndices.forEach((tIdx, ti) => {
+            const shouldConnect =
+              fromIndices.length <= 4 ||
+              toIndices.length <= 4 ||
+              Math.abs(fi - ti) <= 2;
+
+            if (shouldConnect) {
+              const weight = 0.35 + 0.65 * Math.abs(Math.sin(fi * 2.3 + ti * 3.1));
+              edges.push({ a: fIdx, b: tIdx, weight });
+            }
+          });
+        });
       }
 
-      const packetCount = compact ? 10 : 26;
-      packets = Array.from({ length: packetCount }, () => ({
-        edge: Math.floor(rng() * edges.length),
-        t: rng(),
-        speed: (0.09 + rng() * 0.2) * (compact ? 0.7 : 1),
-        hue: rng(),
-      }));
+      // Restrained, slow-moving signal pulses along key connections
+      const pulseCount = compact ? 8 : 14;
+      for (let p = 0; p < pulseCount; p++) {
+        pulses.push({
+          edgeIdx: Math.floor((p / pulseCount) * edges.length) % edges.length,
+          t: p / pulseCount,
+          speed: 0.08 + (p % 3) * 0.03, // Slow and graceful
+        });
+      }
     };
 
-    const resize = () => build();
     build();
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', build);
 
     const onPointer = (e: PointerEvent) => {
       const r = wrap.getBoundingClientRect();
@@ -153,33 +182,59 @@ export const HeroDataSystem: React.FC = () => {
     };
     document.addEventListener('visibilitychange', onVis);
 
-    // ---- draw helpers -------------------------------------------------
+    // Precise scientific grid background
     const drawGrid = () => {
-      ctx.strokeStyle = 'rgba(255,255,255,0.035)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
       ctx.lineWidth = 1;
-      const step = compact ? 34 : 46;
+      const step = 44;
+
       ctx.beginPath();
-      for (let x = step / 2; x < w; x += step) {
+      for (let x = 0; x < w; x += step) {
         ctx.moveTo(Math.round(x) + 0.5, 0);
         ctx.lineTo(Math.round(x) + 0.5, h);
       }
-      for (let y = step / 2; y < h; y += step) {
+      for (let y = 0; y < h; y += step) {
         ctx.moveTo(0, Math.round(y) + 0.5);
         ctx.lineTo(w, Math.round(y) + 0.5);
       }
       ctx.stroke();
     };
 
-    const render = (t: number) => {
+    const render = (timeMs: number) => {
       if (!visible) {
         raf = requestAnimationFrame(render);
         return;
       }
-      const time = t / 1000;
+
+      const t = timeMs / 1000;
       ctx.clearRect(0, 0, w, h);
       drawGrid();
 
-      // Node positions ease toward base, nudged by the cursor.
+      const compact = w < 540;
+      const marginX = compact ? 36 : 56;
+      const colWidth = (w - marginX * 2) / (LAYERS.length - 1);
+
+      // Vertical alignment axes & high-contrast column labels
+      LAYERS.forEach((layer, idx) => {
+        const lx = marginX + idx * colWidth;
+
+        // Subtle structural axis line
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+        ctx.setLineDash([2, 5]);
+        ctx.beginPath();
+        ctx.moveTo(Math.round(lx) + 0.5, 24);
+        ctx.lineTo(Math.round(lx) + 0.5, h - 26);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Crisp, readable layer header
+        ctx.fillStyle = idx === 0 || idx === LAYERS.length - 1 ? '#f5f5f7' : '#a1a1a6';
+        ctx.font = `600 ${compact ? 9 : 10}px "JetBrains Mono", monospace`;
+        ctx.textAlign = 'center';
+        ctx.fillText(layer.label, lx, compact ? 22 : 26);
+      });
+
+      // Cursor interaction: subtle repulsion
       for (const n of nodes) {
         let tx = n.ox;
         let ty = n.oy;
@@ -187,9 +242,9 @@ export const HeroDataSystem: React.FC = () => {
           const dx = n.ox - mouse.x;
           const dy = n.oy - mouse.y;
           const d = Math.hypot(dx, dy);
-          const reach = compact ? 90 : 130;
+          const reach = 90;
           if (d < reach && d > 0.001) {
-            const pull = (1 - d / reach) * (compact ? 6 : 14);
+            const pull = (1 - d / reach) * 6;
             tx += (dx / d) * pull;
             ty += (dy / d) * pull;
           }
@@ -198,147 +253,128 @@ export const HeroDataSystem: React.FC = () => {
         n.y = lerp(n.y, ty, 0.12);
       }
 
-      // Edges
+      // Draw synapse edges
       for (const e of edges) {
         const a = nodes[e.a];
         const b = nodes[e.b];
-        const dist = Math.hypot(b.x - a.x, b.y - a.y);
-        let near = 0;
+        let proximity = 0;
         if (mouse.active) {
           const mx = (a.x + b.x) / 2;
           const my = (a.y + b.y) / 2;
-          near = Math.max(0, 1 - Math.hypot(mx - mouse.x, my - mouse.y) / (compact ? 110 : 170));
+          proximity = Math.max(0, 1 - Math.hypot(mx - mouse.x, my - mouse.y) / 110);
         }
-        ctx.strokeStyle = `rgba(0,168,255,${(0.09 + near * 0.4).toFixed(3)})`;
-        ctx.lineWidth = 1 + near * 0.6;
+
+        const alpha = (0.06 + e.weight * 0.08 + proximity * 0.35).toFixed(3);
+        ctx.strokeStyle = `rgba(41, 151, 255, ${alpha})`;
+        ctx.lineWidth = 1 + proximity * 0.4;
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
         ctx.stroke();
-        void dist;
       }
 
-      // Packets with a short trail
-      for (const p of packets) {
-        p.t += p.speed * 0.016;
-        if (p.t > 1) {
-          p.t -= 1;
-          p.edge = (p.edge + 1) % Math.max(1, edges.length);
+      // Draw restrained, slow-moving signal pulses
+      if (!reduced) {
+        for (const p of pulses) {
+          p.t += p.speed * 0.016;
+          if (p.t > 1) {
+            p.t -= 1;
+            p.edgeIdx = (p.edgeIdx + 1) % edges.length;
+          }
+
+          const e = edges[p.edgeIdx];
+          if (!e) continue;
+          const a = nodes[e.a];
+          const b = nodes[e.b];
+
+          const px = lerp(a.x, b.x, p.t);
+          const py = lerp(a.y, b.y, p.t);
+          const tailLen = 0.22;
+          const tx = lerp(a.x, b.x, Math.max(0, p.t - tailLen));
+          const ty = lerp(a.y, b.y, Math.max(0, p.t - tailLen));
+
+          const grad = ctx.createLinearGradient(tx, ty, px, py);
+          grad.addColorStop(0, 'rgba(41, 151, 255, 0)');
+          grad.addColorStop(1, 'rgba(41, 151, 255, 0.85)');
+
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.6;
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(tx, ty);
+          ctx.lineTo(px, py);
+          ctx.stroke();
         }
-        const e = edges[p.edge];
-        if (!e) continue;
-        const a = nodes[e.a];
-        const b = nodes[e.b];
-        const px = lerp(a.x, b.x, p.t);
-        const py = lerp(a.y, b.y, p.t);
-        const tail = 0.14;
-        const tx2 = lerp(a.x, b.x, Math.max(0, p.t - tail));
-        const ty2 = lerp(a.y, b.y, Math.max(0, p.t - tail));
-        const grad = ctx.createLinearGradient(tx2, ty2, px, py);
-        grad.addColorStop(0, 'rgba(0,168,255,0)');
-        grad.addColorStop(1, p.hue > 0.72 ? 'rgba(163,230,53,0.95)' : 'rgba(0,168,255,0.95)');
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 1.6;
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(tx2, ty2);
-        ctx.lineTo(px, py);
-        ctx.stroke();
       }
 
-      // Nodes
-      nodes.forEach((n, i) => {
-        const pulse = 0.55 + 0.45 * Math.sin(time * 1.6 + n.phase);
+      // Draw nodes with subtle depth and clean electric-blue accents
+      nodes.forEach((n) => {
+        const pulse = 0.5 + 0.5 * Math.sin(t * 1.5 + n.phase);
         let near = 0;
         if (mouse.active) {
-          near = Math.max(0, 1 - Math.hypot(n.x - mouse.x, n.y - mouse.y) / (compact ? 90 : 140));
+          near = Math.max(0, 1 - Math.hypot(n.x - mouse.x, n.y - mouse.y) / 80);
         }
-        const r = n.r * (1 + pulse * 0.22 + near * 0.5);
 
+        const isInput = n.layerIdx === 0;
+        const isOutput = n.layerIdx === LAYERS.length - 1;
+
+        // Subtle outer aura
         ctx.beginPath();
-        ctx.arc(n.x, n.y, r * 3.2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0,168,255,${(0.05 + pulse * 0.05 + near * 0.14).toFixed(3)})`;
+        ctx.arc(n.x, n.y, n.r * 2.4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(41, 151, 255, ${(0.03 + pulse * 0.03 + near * 0.12).toFixed(3)})`;
         ctx.fill();
 
+        // Node core
         ctx.beginPath();
-        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
-        ctx.fillStyle = i === STAGES.length - 1 ? '#a3e635' : '#00A8FF';
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = isOutput ? '#2997ff' : isInput ? '#f5f5f7' : '#2997ff';
         ctx.fill();
 
+        // Precision hairline boundary ring
         ctx.beginPath();
-        ctx.arc(n.x, n.y, r * 1.9, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(0,168,255,${(0.16 + near * 0.4).toFixed(3)})`;
+        ctx.arc(n.x, n.y, n.r * 1.7, 0, Math.PI * 2);
+        ctx.strokeStyle = isOutput || isInput ? 'rgba(255, 255, 255, 0.35)' : 'rgba(41, 151, 255, 0.35)';
         ctx.lineWidth = 1;
         ctx.stroke();
       });
 
-      // Stage labels
-      ctx.textAlign = 'center';
-      ctx.font = `500 ${compact ? 7 : 8}px "JetBrains Mono", monospace`;
-      nodes.forEach((n) => {
-        const label = STAGES[n.stage].label;
-        ctx.fillStyle = 'rgba(167,176,190,0.75)';
-        ctx.fillText(label, n.x, n.y + (compact ? 22 : 26));
-      });
+      // High-contrast, concise footer annotations
+      ctx.fillStyle = '#a1a1a6';
+      ctx.font = `500 ${compact ? 9 : 10}px "JetBrains Mono", monospace`;
+      ctx.textAlign = 'left';
+      ctx.fillText('DIRECTED ACYCLIC GRAPH', marginX, h - (compact ? 12 : 14));
 
-      // Live prediction readout driven by real pipeline state
-      const activeStage = Math.min(
-        STAGES.length - 1,
-        Math.floor(time % 12 / 2.4),
-      );
-      const conf = (72 + Math.sin(time * 0.9) * 9 + (activeStage === 4 ? 14 : 0)).toFixed(1);
-      if (readRef.current) {
-        readRef.current.textContent = `${STAGES[activeStage].label} · confidence ${conf}%`;
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#2997ff';
+      ctx.fillText('LATENCY: NOMINAL', w - marginX, h - (compact ? 12 : 14));
+
+      if (!reduced) {
+        raf = requestAnimationFrame(render);
       }
-
-      raf = requestAnimationFrame(render);
-    };
-
-    const paintStatic = () => {
-      // Reduced motion: one deterministic frame, no loop.
-      render(0);
-      cancelAnimationFrame(raf);
-      raf = 0;
     };
 
     if (reduced) {
-      paintStatic();
+      render(0);
     } else {
       raf = requestAnimationFrame(render);
     }
 
-    const onMqChange = () => {
-      cancelAnimationFrame(raf);
-      raf = 0;
-      if (reduced) paintStatic();
-      else raf = requestAnimationFrame(render);
-    };
-    reduce.addEventListener?.('change', onMqChange);
-
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', build);
       wrap.removeEventListener('pointermove', onPointer);
       wrap.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVis);
-      reduce.removeEventListener?.('change', onMq);
-      reduce.removeEventListener?.('change', onMqChange);
     };
   }, []);
 
   return (
     <div ref={wrapRef} className="relative h-full w-full">
       <canvas ref={canvasRef} className="block h-full w-full" aria-hidden="true" />
-      <p
-        ref={readRef}
-        className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap font-mono-tech text-[10px] tracking-[0.16em] text-ink-muted"
-      >
-        RAW DATA · confidence 72.0%
-      </p>
       <span className="sr-only">
-        Animated diagram of a machine learning pipeline: raw data flows through
-        analysis, model training and prediction to produce insight.
+        Conceptual scientific visualization of a deep neural network architecture: input tensor, convolutional embedding, latent space, dense decision head, and inference output.
       </span>
     </div>
   );
 };
+

@@ -6,7 +6,6 @@ export const TelemetryStatusBar: React.FC = () => {
 
   useEffect(() => {
     const updateTime = () => {
-      // IST time calculation (UTC + 5:30)
       const now = new Date();
       const istTime = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (330 * 60000));
       const hours = String(istTime.getHours()).padStart(2, '0');
@@ -21,22 +20,24 @@ export const TelemetryStatusBar: React.FC = () => {
   }, []);
 
   return (
-    <div className="border-b border-white/[0.06] bg-[#08080b] py-2">
-      <div className="shell flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] font-mono-tech tracking-wider text-[#8e8e9f]">
-        
+    <div className="border-b border-white/[0.05] bg-[#0c0c0e]/60 backdrop-blur-md py-1.5 px-4 text-[11px] font-mono text-[#86868b]">
+      <div className="mx-auto max-w-[1140px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1.5 tracking-tight">
         {/* Left Telemetry Status */}
         <div className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#a3e635] shadow-[0_0_8px_#a3e635]"></span>
-          <span className="text-white/80">[{PERSONAL_INFO.systemVersion}]</span>
+          <span className="h-1.5 w-1.5 rounded-full bg-[#30d158]"></span>
+          <span className="text-[#a1a1a6]">SYSTEM // {PERSONAL_INFO.systemVersion}</span>
+          <span className="text-white/20">·</span>
+          <span className="hidden sm:inline text-[#86868b]">{PERSONAL_INFO.roleLabel}</span>
         </div>
 
-        {/* Right Location & Role Status */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-          <span className="text-white/70">
-            [LOC: NAGPUR, IN // IST {timeStr ? `${timeStr} ` : ''}GMT+5:30]
+        {/* Right Location & Time */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          <span>
+            NAGPUR, IN · IST {timeStr ? `${timeStr} ` : ''}(UTC+5:30)
           </span>
-          <span className="text-[#00f0ff] font-medium bg-[#00f0ff]/10 px-1.5 py-0.5 rounded border border-[#00f0ff]/30">
-            [STATUS: {PERSONAL_INFO.availabilityStatus}]
+          <span className="text-white/20">·</span>
+          <span className="text-[#30d158] font-medium bg-[#30d158]/10 px-2 py-0.5 rounded-full border border-[#30d158]/20 text-[10px]">
+            {PERSONAL_INFO.availabilityStatus}
           </span>
         </div>
       </div>

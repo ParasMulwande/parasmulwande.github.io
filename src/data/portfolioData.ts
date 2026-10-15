@@ -12,12 +12,13 @@ export const PERSONAL_INFO = {
   timezone: "IST GMT+5:30",
   availabilityStatus: "AVAILABLE FOR ROLES",
   availabilityBadge: "AVAILABLE FOR Q2/Q3 ROLES & COLLABS",
-  email: "paras.mulwande@gmail.com",
+  email: "parasmulwande@gmail.com",
   phone: "+91 8007752979",
-  whatsapp: "908007752979",
-  whatsappDisplay: "+90 800 775 2979",
+  whatsapp: "918007752979",
+  whatsappDisplay: "+91 8007752979",
   github: "https://github.com/ParasMulwande",
   linkedin: "https://www.linkedin.com/in/parasmulwande/",
+  resumePath: "/Paras-Mulwande-Resume.pdf",
   systemVersion: "SYS.ONLINE // 2025.V4",
   telemetry: {
     onlinePercent: "99.8%",
@@ -66,28 +67,30 @@ export const PROJECTS: Project[] = [
     ],
     tags: ["Python", "Flask", "MongoDB", "CNN", "Random Forest", "XGBoost", "OpenWeather API"],
     paperLink: "https://doi.org/10.48175/IJARSCT-25960",
-    doi: "10.48175/IJARSCT-25960"
+    doi: "10.48175/IJARSCT-25960",
+    githubUrl: "https://github.com/ParasMulwande/PREDICROP",
+    demoUrl: "https://predicrop.onrender.com/"
   },
   {
     id: "valorcut-ai",
     tag: "[02 // INNOVATION LAB]",
-    badge: "IN ACTIVE DEVELOPMENT (2026 ROADMAP)",
-    metricLabel: "FOCUS",
-    metricValue: "COMPUTER VISION & ASR MULTI-MODAL",
+    badge: "IN DEVELOPMENT (ACTIVE RESEARCH)",
+    metricLabel: "STATUS",
+    metricValue: "IN DEVELOPMENT · PROTOTYPING",
     title: "VALORCUT AI — Autonomous Gameplay Clipping Engine",
-    subtitle: "Multi-Modal Event Detection, Whisper Transcription & Vertical Reframing",
-    description: "Developing a multi-modal computer vision and audio intelligence pipeline designed to ingest long-form VALORANT video streams, classify clutch engagement events via spatial-temporal visual cues, and run Whisper ASR to generate synced subtitles. The engine computes salient action focus coordinates to dynamically transform 16:9 gameplay footage into viral-ready 9:16 vertical shorts.",
+    subtitle: "Automated Highlight Detection & Extraction Pipeline",
+    description: "Developing an intelligent video processing pipeline designed to ingest long-form VALORANT gameplay footage and automatically detect, score, and extract high-impact combat highlights using spatial-temporal computer vision cues. Planned extensions in active development include Whisper ASR speech transcription, audio cue synchronization, and automated 16:9 to 9:16 vertical video reframing.",
     highlights: [
       {
-        title: "9:16 Adaptive Reframe",
-        description: "Dynamic bounding boxes tracking crosshair and kill-feed coordinates."
+        title: "Combat Highlight Extraction",
+        description: "Core Goal: Detecting clutch eliminations, spike interactions, and round outcomes."
       },
       {
-        title: "Whisper ASR Speech Sync",
-        description: "Sub-millisecond audio cue alignment and multilingual translation."
+        title: "9:16 Reframe & Captions (In Dev)",
+        description: "Roadmap: Automated vertical focus tracking, Whisper speech subtitles, and FFmpeg remuxing."
       }
     ],
-    tags: ["Python", "Whisper ASR", "OpenCV", "Video Processing", "Dynamic Salience Framing", "FFmpeg Engine"]
+    tags: ["Python", "OpenCV", "Video Processing", "Highlight Extraction", "Whisper ASR (Planned)", "FFmpeg Engine"]
   }
 ];
 

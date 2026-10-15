@@ -19,80 +19,37 @@ const seeded = (i: number, salt: number) => {
 /* ------------------------------------------------------------------ */
 
 const AgriWeather: React.FC<{ project: Project }> = ({ project }) => {
-  const crops = ['Wheat', 'Rice', 'Soybean', 'Cotton'];
-  const weather = [
-    { k: 'temp', label: 'Temp', v: '31°C' },
-    { k: 'hum', label: 'Humidity', v: '68%' },
-    { k: 'rain', label: 'Rain 7d', v: '42mm' },
-    { k: 'soil', label: 'Soil moisture', v: '54%' },
-  ];
-
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <span className="stat-label">Crop suitability</span>
-        <span className="rounded-[8px] border border-accent/30 bg-accent/10 px-2 py-0.5 font-mono-tech text-[9px] tracking-[0.12em] text-accent">
+    <div className="space-y-4">
+      {/* Apple-style window bar with project identity and accuracy metric */}
+      <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2 w-2">
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#30d158]"></span>
+          </span>
+          <span className="font-mono text-[11px] font-semibold text-[#f5f5f7] tracking-tight">
+            PREDICROP AI // PRODUCTION INTERFACE
+          </span>
+        </div>
+        <span className="rounded-full border border-[#30d158]/30 bg-[#30d158]/10 px-2.5 py-0.5 font-mono text-[10px] font-semibold text-[#30d158]">
           {project.metricValue}
         </span>
       </div>
 
-      <div className="space-y-2.5">
-        {crops.map((c, i) => {
-          const v = 0.42 + seeded(i, 3) * 0.5;
-          return (
-            <div key={c}>
-              <div className="mb-1 flex items-baseline justify-between">
-                <span className="font-mono-tech text-[10px] text-ink-secondary">{c}</span>
-                <span className="font-mono-tech text-[10px] text-ink-muted">
-                  {(v * 100).toFixed(0)}%
-                </span>
-              </div>
-              <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.05]">
-                <div
-                  className="chart-bar h-full rounded-full bg-gradient-to-r from-[#0066FF] to-accent"
-                  style={{
-                    transform: 'scaleY(1) scaleX(var(--v))',
-                    ['--v' as string]: v,
-                    transformOrigin: 'left',
-                    transitionDelay: `${i * 110}ms`,
-                  }}
-                />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Leaf diagnosis confidence — the project's real CNN capability */}
-      <div className="rounded-[10px] border border-white/[0.07] bg-surface/60 p-3">
-        <div className="flex items-center justify-between">
-          <span className="stat-label">Leaf diagnosis</span>
-          <span className="font-mono-tech text-[10px] text-accent">CNN classifier</span>
+      {/* Genuine Project Screenshot Frame */}
+      <div className="group relative overflow-hidden rounded-[20px] border border-white/[0.12] bg-[#0c0c0e] shadow-[0_16px_36px_rgba(0,0,0,0.6)]">
+        <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#0c0c0e]">
+          <img
+            src="/predicrop-crop-ai.png"
+            alt="PREDICROP Crop AI interface screenshot showing soil and environment input parameters, soil nutrient guide, and predictive crop matching"
+            className="h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+            loading="lazy"
+          />
         </div>
-        <div className="mt-3 flex items-end gap-1">
-          {Array.from({ length: 14 }, (_, i) => {
-            const v = 0.25 + seeded(i, 7) * 0.75;
-            return (
-              <div
-                key={i}
-                className="chart-bar flex-1 rounded-t-[2px] bg-accent/70"
-                style={{
-                  height: `${Math.max(6, v * 44)}px`,
-                  transitionDelay: `${i * 40}ms`,
-                }}
-              />
-            );
-          })}
+        <div className="border-t border-white/[0.08] bg-[#141416]/90 px-4 py-2.5 backdrop-blur-md flex items-center justify-between text-[11px] font-mono text-[#86868b]">
+          <span>Interface Preview · Crop AI Analysis</span>
+          <span className="text-[#30d158]">Live on Render</span>
         </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[10px] border border-white/[0.07] bg-white/[0.04] sm:grid-cols-4">
-        {weather.map((m) => (
-          <div key={m.k} className="bg-surface px-3 py-2.5">
-            <div className="stat-label">{m.label}</div>
-            <div className="mt-1 font-display text-sm font-bold text-ink">{m.v}</div>
-          </div>
-        ))}
       </div>
     </div>
   );
@@ -103,77 +60,49 @@ const AgriWeather: React.FC<{ project: Project }> = ({ project }) => {
 /* ------------------------------------------------------------------ */
 
 const ValorCut: React.FC<{ project: Project }> = ({ project }) => {
-  const events = [0.12, 0.28, 0.46, 0.61, 0.78, 0.9];
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <span className="stat-label">Event detection</span>
-        <span className="rounded-[8px] border border-white/10 px-2 py-0.5 font-mono-tech text-[9px] tracking-[0.12em] text-ink-muted uppercase">
-          In development
-        </span>
-      </div>
-
-      {/* 16:9 -> 9:16 reframe */}
-      <div className="relative flex h-32 items-center justify-center rounded-[10px] border border-white/[0.07] bg-bg/50">
-        <div className="absolute inset-x-3 top-3 bottom-3 flex gap-1.5">
-          <div className="flex-1 rounded-[4px] border border-white/[0.06] bg-white/[0.015]" />
-          <div className="w-[26%] rounded-[4px] border border-accent/40 bg-accent/[0.08]" />
-          <div className="flex-1 rounded-[4px] border border-white/[0.06] bg-white/[0.015]" />
+    <div className="space-y-4">
+      {/* Header bar with video status */}
+      <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2 w-2">
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#bf5af2]"></span>
+          </span>
+          <span className="font-mono text-[11px] font-semibold text-[#f5f5f7] tracking-tight">
+            VALORCUT AI // HIGHLIGHT EXTRACTION
+          </span>
         </div>
-        <span className="relative rounded-[8px] bg-[#05070B]/85 px-2.5 py-1 font-mono-tech text-[9px] tracking-[0.14em] text-ink-secondary">
-          16:9 → 9:16
-        </span>
-        <span className="absolute bottom-2 left-3 font-mono-tech text-[9px] text-ink-muted">
-          salience tracking
+        <span className="rounded-full border border-[#bf5af2]/30 bg-[#bf5af2]/10 px-2.5 py-0.5 font-mono text-[10px] font-semibold text-[#bf5af2] uppercase">
+          In Development
         </span>
       </div>
 
-      {/* timeline */}
-      <div className="relative h-14 rounded-[10px] border border-white/[0.07] bg-surface/60 px-3 py-2">
-        <div className="relative h-full rounded-[4px] bg-white/[0.03]">
-          {events.map((p, i) => (
-            <div
-              key={i}
-              className="absolute top-1/2 h-3 w-[2px] -translate-y-1/2 rounded bg-accent"
-              style={{ left: `${p * 100}%` }}
-              title={`detected event ${i + 1}`}
-            >
-              <span className="absolute -top-3 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-accent/70" />
-            </div>
-          ))}
+      {/* Cinematic 16:9 Project Visual Frame */}
+      <div className="group relative overflow-hidden rounded-[20px] border border-[#bf5af2]/20 bg-[#0c0c0e] shadow-[0_16px_36px_rgba(0,0,0,0.6)]">
+        <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#0c0c0e]">
+          <img
+            src="/valorcut-cinematic.png"
+            alt="ValorCut AI cinematic gameplay showcase illustrating automated highlight extraction from competitive tactical footage"
+            className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+            loading="lazy"
+          />
+          {/* Subtle purple corner ambient gradient overlay */}
           <div
-            className="absolute top-0 bottom-0 w-[2px] rounded bg-white/70"
-            style={{ left: '38%' }}
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"
+            aria-hidden="true"
           />
         </div>
-        <span className="absolute bottom-1 right-3 font-mono-tech text-[9px] text-ink-muted">
-          {events.length} candidate moments
-        </span>
-      </div>
 
-      {/* audio track */}
-      <div className="rounded-[10px] border border-white/[0.07] bg-surface/60 px-3 py-3">
-        <div className="mb-2 flex items-center justify-between">
-          <span className="stat-label">Whisper ASR</span>
-          <span className="font-mono-tech text-[10px] text-ink-muted">cue alignment</span>
-        </div>
-        <div className="flex h-8 items-center gap-[2px]">
-          {Array.from({ length: 46 }, (_, i) => {
-            const v = 0.15 + seeded(i, 11) * 0.85;
-            return (
-              <div
-                key={i}
-                className="chart-bar w-[2px] rounded-full bg-accent/55"
-                style={{ height: `${Math.max(3, v * 30)}px`, transitionDelay: `${i * 18}ms` }}
-              />
-            );
-          })}
+        {/* Feature roadmap pill footer */}
+        <div className="border-t border-white/[0.08] bg-[#141217]/90 px-4 py-2.5 backdrop-blur-md flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-[#86868b]">
+          <div className="flex items-center gap-2">
+            <span className="text-[#f5f5f7] font-medium">Core: Highlight Extraction</span>
+            <span className="text-white/20">·</span>
+            <span className="text-[#a1a1a6]">OpenCV Combat Cues</span>
+          </div>
+          <span className="text-[#bf5af2] text-[10px] font-semibold">Captions & 9:16 Reframe In Dev</span>
         </div>
       </div>
-
-      <p className="font-mono-tech text-[9px] leading-relaxed text-ink-muted">
-        {project.badge}
-      </p>
     </div>
   );
 };

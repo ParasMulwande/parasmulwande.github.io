@@ -11,7 +11,6 @@ import { TechTicker } from './components/TechTicker';
 import { AboutSection } from './components/AboutSection';
 import { SkillsSection } from './components/SkillsSection';
 import { ProjectsSection } from './components/ProjectsSection';
-import { DataLabShowcase } from './components/DataLabShowcase';
 import { ExperienceSection } from './components/ExperienceSection';
 import { AchievementsSection } from './components/AchievementsSection';
 import { ServicesSection } from './components/ServicesSection';
@@ -19,6 +18,7 @@ import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { ProfileModal } from './components/ProfileModal';
 import { BootIntro } from './components/BootIntro';
+import { Dock } from './components/Dock';
 
 export default function App() {
   const [profileModalOpen, setProfileModalOpen] = useState(false);
@@ -37,9 +37,6 @@ export default function App() {
 
   return (
     <div className="relative flex min-h-screen w-full max-w-none flex-col bg-bg font-body text-ink">
-      {/* Atmosphere lives in index.css; the aura is driven by lib/pointer */}
-      <div className="cursor-aura" aria-hidden="true" />
-
       <Navbar onOpenProfile={() => setProfileModalOpen(true)} />
 
       <div className="relative z-10">
@@ -52,12 +49,14 @@ export default function App() {
         <AboutSection />
         <SkillsSection />
         <ProjectsSection />
-        <DataLabShowcase />
         <ExperienceSection />
         <AchievementsSection />
         <ServicesSection />
         <ContactSection />
       </main>
+
+      {/* macOS-style Quick Shortcut Dock */}
+      <Dock />
 
       <Footer />
 

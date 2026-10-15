@@ -34,76 +34,70 @@ export const BootIntro: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
 
   return (
     <div
-      className={`fixed inset-0 z-[100] bg-[#070709] flex flex-col items-center justify-center transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[100] bg-[#000000] flex flex-col items-center justify-center transition-opacity duration-500 ${
         phase === 'fade' ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
       aria-hidden="true"
     >
-      {/* Ambient glow matching hero */}
+      {/* Ambient subtle glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#00f0ff]/5 rounded-full blur-[200px] opacity-50"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#a3e635]/3 rounded-full blur-[150px] opacity-30"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.03] rounded-full blur-[180px]"></div>
       </div>
-
-      {/* Scanline sweep */}
-      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#00f0ff]/40 to-transparent animate-scanline pointer-events-none" style={{ animationDuration: '2s' }} />
 
       <div className="relative z-10 flex flex-col items-center gap-6 text-center">
         {/* System identifier */}
-        <div className="font-mono-tech text-xs tracking-widest text-white/40 uppercase">
-          PARAS MULWANDE // PORTFOLIO v1.0
+        <div className="font-mono text-xs tracking-wider text-white/40 uppercase">
+          PARAS MULWANDE // PORTFOLIO
         </div>
 
         {/* Status text */}
         <div className="min-h-[2.5rem] w-full max-w-md flex flex-col items-center gap-3">
           <span
-            className={`font-mono-tech text-sm tracking-wider text-[#00f0ff] transition-all duration-300 ${
+            className={`font-mono text-sm tracking-tight text-[#f5f5f7] transition-all duration-300 ${
               phase === 'init' ? 'opacity-100' : 'opacity-0 -translate-y-4'
             }`}
           >
-            INITIALIZING SYSTEM...
+            Initializing environment...
           </span>
           <span
-            className={`font-mono-tech text-sm tracking-wider text-[#00f0ff] transition-all duration-300 ${
+            className={`font-mono text-sm tracking-tight text-[#f5f5f7] transition-all duration-300 ${
               phase === 'loading' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
-            LOADING NEURAL STACK...
+            Loading neural systems & pipeline...
           </span>
           <span
-            className={`font-mono-tech text-sm tracking-wider text-[#a3e635] transition-all duration-300 ${
+            className={`font-mono text-sm tracking-tight text-[#30d158] transition-all duration-300 ${
               phase === 'online' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
-            SYSTEM ONLINE
+            System Online
           </span>
         </div>
 
         {/* Progress indicator */}
-        <div className="w-full max-w-md">
-          <div className="h-1 bg-[#111116] rounded overflow-hidden border border-white/10">
+        <div className="w-full max-w-xs">
+          <div className="h-1 bg-white/[0.08] rounded-full overflow-hidden">
             <div
-              className={`h-full bg-gradient-to-r from-[#00f0ff] via-[#a3e635] to-[#00f0ff] rounded transition-all duration-500 ease-out ${
+              className={`h-full bg-[#f5f5f7] rounded-full transition-all duration-500 ease-out ${
                 phase === 'init' ? 'w-0' : phase === 'loading' ? 'w-1/2' : 'w-full'
               }`}
-              style={{ boxShadow: '0 0 12px #00f0ff, 0 0 24px rgba(0,240,255,0.3)' }}
             />
           </div>
         </div>
 
         {/* Boot details - only show during loading */}
         {phase === 'loading' && (
-          <div className="font-mono-tech text-[10px] text-white/30 tracking-wider uppercase max-w-md text-left">
-            <div className="mb-1">{'> memory check.......... [OK]'}</div>
-            <div className="mb-1">{'> neural weights loaded.. [OK]'}</div>
-            <div className="mb-1">{'> telemetry link......... [OK]'}</div>
-            <div>{'> interface ready........ [OK]'}</div>
+          <div className="font-mono text-[10px] text-white/30 tracking-tight max-w-xs text-left">
+            <div className="mb-0.5">{'> loading neural weights... [OK]'}</div>
+            <div className="mb-0.5">{'> telemetry stream link.... [OK]'}</div>
+            <div>{'> interface ready.......... [OK]'}</div>
           </div>
         )}
 
         {/* Version tag */}
-        <div className="font-mono-tech text-[10px] text-white/20 tracking-wider">
-          BUILD {new Date().toISOString().slice(0, 10).replace(/-/g, '')} // NODE v20+ // VITE
+        <div className="font-mono text-[10px] text-white/20 tracking-tight">
+          SYSTEM ONLINE · BUILD {new Date().getFullYear()}
         </div>
       </div>
     </div>

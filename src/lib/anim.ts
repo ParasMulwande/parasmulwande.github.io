@@ -84,7 +84,9 @@ function bindMagnetic() {
       const r = el.getBoundingClientRect();
       const x = e.clientX - (r.left + r.width / 2);
       const y = e.clientY - (r.top + r.height / 2);
-      el.style.transform = `translate3d(${x * 0.16}px, ${y * 0.22}px, 0)`;
+      const clampedX = Math.max(-5, Math.min(5, x * 0.08)).toFixed(2);
+      const clampedY = Math.max(-4, Math.min(4, y * 0.1)).toFixed(2);
+      el.style.transform = `translate3d(${clampedX}px, ${clampedY}px, 0)`;
     };
     const leave = () => {
       el.style.transform = "translate3d(0, 0, 0)";

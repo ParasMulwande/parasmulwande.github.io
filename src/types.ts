@@ -15,6 +15,8 @@ export interface Project {
   tags: string[];
   paperLink?: string;
   doi?: string;
+  githubUrl?: string;
+  demoUrl?: string;
 }
 
 export interface SkillCategory {

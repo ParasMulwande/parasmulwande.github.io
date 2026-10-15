@@ -36,14 +36,14 @@ export const Section: React.FC<SectionProps> = ({
   >
     <div className="shell">
       {title || aside ? (
-        <header className="max-w-3xl">
-          <div className="flex flex-wrap items-end justify-between gap-6">
+        <header className="mb-10 max-w-3xl">
+          <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="min-w-0">
               <p className="eyebrow" data-reveal>
                 {eyebrow}
               </p>
               {title ? (
-                <h2 className="t-h1 mt-4" data-reveal data-reveal-delay="60">
+                <h2 className="font-display text-2xl sm:text-3xl lg:text-[2.25rem] font-bold tracking-tight text-[#f5f5f7] leading-tight mt-3" data-reveal data-reveal-delay="60">
                   {title}
                 </h2>
               ) : null}
@@ -56,7 +56,7 @@ export const Section: React.FC<SectionProps> = ({
           </div>
 
           {lede ? (
-            <p className="t-lead mt-4 max-w-2xl" data-reveal data-reveal-delay="100">
+            <p className="mt-3.5 max-w-2xl text-[15px] sm:text-[16px] leading-relaxed text-[#a1a1a6]" data-reveal data-reveal-delay="100">
               {lede}
             </p>
           ) : null}
