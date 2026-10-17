@@ -37,6 +37,7 @@ export interface Publication {
   citation: string;
   description: string;
   doi?: string;
+  url?: string;
   statusBadge?: string;
 }
 

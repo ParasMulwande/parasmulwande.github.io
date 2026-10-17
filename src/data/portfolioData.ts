@@ -66,7 +66,7 @@ export const PROJECTS: Project[] = [
       }
     ],
     tags: ["Python", "Flask", "MongoDB", "CNN", "Random Forest", "XGBoost", "OpenWeather API"],
-    paperLink: "https://doi.org/10.48175/IJARSCT-25960",
+    paperLink: "https://www.ijarsct.co.in/Paper25960.pdf",
     doi: "10.48175/IJARSCT-25960",
     githubUrl: "https://github.com/ParasMulwande/PREDICROP",
     demoUrl: "https://predicrop.onrender.com/"
@@ -154,7 +154,8 @@ export const PUBLICATIONS: Publication[] = [
     title: "Agri-Weather — Smart Crop Management Platform Using Deep CNN and Hybrid Regressors",
     citation: "International Journal of Advanced Research in Science, Communication and Technology • April 2025",
     description: "Comprehensive documentation of the full-stack multi-model agricultural decision support platform. Outlines the dataset curation pipeline, CNN transfer learning methodology for botanical disease identification with 96.4% test accuracy, and the integration of live weather telemetry via OpenWeather REST endpoints.",
-    doi: "10.48175/IJARSCT-25960"
+    doi: "10.48175/IJARSCT-25960",
+    url: "https://www.ijarsct.co.in/Paper25960.pdf"
   },
   {
     id: "etrcee-2025",

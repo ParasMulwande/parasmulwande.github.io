@@ -253,7 +253,7 @@ export const AchievementsSection: React.FC = () => {
                     {pub.doi && (
                       <div className="shrink-0 flex items-center lg:items-start pt-1">
                         <a
-                          href={`https://doi.org/${pub.doi}`}
+                          href={pub.url || `https://doi.org/${pub.doi}`}
                           target="_blank"
                           rel="noreferrer"
                           className="inline-flex items-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.02] px-3.5 py-2 font-mono text-[11px] text-[#f5f5f7] transition-all duration-200 hover:border-[#2997ff]/50 hover:bg-[#2997ff]/5 hover:text-[#2997ff]"
